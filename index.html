@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Goods Heaven</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Esto es el menu del lado donde estaran los filtros para todos los tipos de productos -->
+    <div class="menu-overlay" id="menuOverlay"></div>    <!-- Parte de fuera del menu, para hacer mas oscuro el resto y al darle click se cierre-->
+    <nav class="menu-lateral" id="menuLateral">
+        <div class="menu-cabecera">
+            <h2 class="menu-titulo">Menú</h2>
+            <button class="cerrar-menu" id="cerrarMenu">
+                <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
+            </button>
+        </div>
+        <ul class="lista-menu">
+            <li class="item-menu"><a href="#" class="enlace-menu">Inicio</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Dormitorio</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Almacenamiento</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Decoración</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
+        </ul>
+    </nav>
+    <!-- Header que contendra el menu, logo, usuario, carrito y el buscador -->
+    <header class="header">
+        <div class="header-superior">
+            <button class="boton-menu" id="botonMenu">
+                <img src="assets/iconos/menu.png" alt="Menú" class="icono">
+            </button>
+            <img src="assets/logo/iconoClaro.png" alt="Home Goods Haven" class="icono-logo">
+
+            <div class="logo">
+                <a href="#" class="logo-texto">Home Goods Heaven</a>
+            </div>
+
+            <button class="boton-icono">
+                <a href="backend/form_login.php"><img src="assets/iconos/user.png" alt="Usuario" class="icono"></a>
+            </button>
+            <button class="boton-icono">
+                <img src="assets/iconos/carrito.png" alt="Carrito" class="icono">
+                <span class="items-carrito">0</span>
+            </button>
+        </div>
+        <div class="barra-busqueda">
+            <img src="assets/iconos/buscar.png" alt="Buscar" class="icono-busqueda">
+            <input type="search" class="entrada-input" placeholder="Buscar muebles...">
+        </div>
+    </header>
+    <!-- Contenido que tendra el hero y productos -->
+    <main class="contenido-principal">
+        <section class="producto-hero">
+            <div class="contenedor-imagen-hero">
+                <img src="assets/img/sofa.jpg" alt="Sofá Moderno Verde" class="imagen-hero">
+                <button class="boton-favorito">
+                    <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                </button>
+            </div>
+            <div class="contenido-hero">
+                <h2 class="titulo-hero">Sofá Moderno Verde</h2>
+                <p class="subtitulo-hero">Máximo confort con diseño escandinavo. Tapizado en tejido de lino suave.</p>
+                <p class="precio-hero">899€</p>
+                <button class="boton-cta-hero"><a href="views/producto.html">Comprar ahora</a></button>
+            </div>
+        </section>
+        <!-- Dividir los productos para que sea mas facil a la hora de añadirle el estilo -->
+        <div class="productos">
+            <article class="zona-producto">
+                <div class="contenedor-imagen-producto">
+                    <img src="assets/img/lamparaPie.jpg" alt="Mesa de comedor" class="imagen-producto">
+                    <button class="boton-favorito">
+                        <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                    </button>
+                </div>
+                <div class="informacion-producto">
+                    <h3 class="titulo-producto">Lampara pie</h3>
+                    <p class="precio-producto">549€</p>
+                    <button class="anadir-carrito-btn"><a href="views/producto.html">Comprar ahora</a></button>
+                </div>
+            </article>
+
+            <article class="zona-producto">
+                <div class="contenedor-imagen-producto">
+                    <img src="assets/img/sillaMadera.jpg" alt="Silla de diseño" class="imagen-producto">
+                    <button class="boton-favorito">
+                        <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                    </button>
+                </div>
+                <div class="informacion-producto">
+                    <h3 class="titulo-producto">Silla de Madera</h3>
+                    <p class="precio-producto">159€</p>
+                    <button class="anadir-carrito-btn"><a class="irProductos" href="views/producto.html">Comprar ahora</a></button>
+                </div>
+            </article>
+
+            <article class="zona-producto">
+                <div class="contenedor-imagen-producto">
+                    <img src="assets/img/sillonCuero.jpg" alt="Sofa" class="imagen-producto">
+                    <button class="boton-favorito">
+                        <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                    </button>
+                </div>
+                <div class="informacion-producto">
+                    <h3 class="titulo-producto">Sillon hecho de cuero</h3>
+                    <p class="precio-producto">329€</p>
+                    <button class="anadir-carrito-btn"><a class="irProductos" href="views/producto.html">Comprar ahora</a></button>
+                </div>
+            </article>
+
+            <article class="zona-producto">
+                <div class="contenedor-imagen-producto">
+                    <img src="assets/img/SofaTerracota.jpg" alt="Lámpara" class="imagen-producto">
+                    <button class="boton-favorito">
+                        <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                    </button>
+                </div>
+                <div class="informacion-producto">
+                    <h3 class="titulo-producto">Sofá Moderno Terracota</h3>
+                    <p class="precio-producto">179€</p>
+                    <button class="anadir-carrito-btn"><a class="irProductos" href="views/producto.html">Comprar ahora</a></button>
+                </div>
+            </article>
+
+            <article class="zona-producto">
+                <div class="contenedor-imagen-producto">
+                    <img src="assets/img/camaQueen.jpg" alt="Cama" class="imagen-producto">
+                    <button class="boton-favorito">
+                        <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
+                    </button>
+                </div>
+                <div class="informacion-producto">
+                    <h3 class="titulo-producto">Cama Tapizada Queen</h3>
+                    <p class="precio-producto">749€</p>
+                    <button class="anadir-carrito-btn"><a class="irProductos" href="views/producto.html">Comprar ahora</a></button>
+                </div>
+            </article>
+        </div>
+    </main>
+    <!-- Footer con las 4 opciones para movil y tablet -->
+    <footer class="pie-pagina">
+        <nav class="nav-pie-pagina">
+            <a href="#" class="enlace-pie-pagina activo">
+                <img src="assets/iconos/inicio.png" alt="Inicio" class="icono">
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="enlace-pie-pagina">
+                <img src="assets/iconos/corazon.png" alt="Favoritos" class="icono">
+                <span>Favoritos</span>
+            </a>
+            <a href="#" class="enlace-pie-pagina">
+                <img src="assets/iconos/user.png" alt="Perfil" class="icono">
+                <span>Perfil</span>
+            </a>
+            <a href="#" class="enlace-pie-pagina">
+                <img src="assets/iconos/carrito.png" alt="Carrito" class="icono">
+                <span>Carrito</span>
+            </a>
+        </nav>
+    </footer>
+    <script src="js/scrypt.js"></script>
+</body>
+</html>

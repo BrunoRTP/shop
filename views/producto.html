@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/output.css" />
+    <title>Document</title>
+  </head>
+  <body class="flex flex-col">
+    <div
+      class="menu-overlay fixed top-0 left-0 w-full h-[800px] bg-black/50 opacity-0 invisible z-[150] [transition:opacity_0.3s_ease,visibility_0s_linear_0.3s] [&.active]:opacity-100 [&.active]:visible [&.active]:[transition:opacity_0.3s_ease,visibility_0s]"
+      id="menuOverlay"
+    ></div>
+    <nav
+      class="menu-lateral fixed top-0 -left-[280px] w-[280px] h-[800px] bg-white shadow-[2px_0_10px_rgba(0,0,0,0.1)] z-200 overflow-y-auto transition-[left] duration-300 ease-in-out [&.active]:left-0"
+      id="menuLateral"
+    >
+      <div
+        class="menu-cabecera p-6 border-b border-gray-200 flex justify-between items-center"
+      >
+        <h2 class="menu-titulo text-xl font-bold">Menú</h2>
+        <button
+          class="cerrar-menu bg-none border-none cursor-pointer p-1"
+          id="cerrarMenu"
+        >
+          <img src="../assets/iconos/cerrar.png" alt="Cerrar" class="icono" />
+        </button>
+      </div>
+      <ul class="lista-menu px-0 py-4">
+        <li class="item-menu"><a href="#" class="enlace-menu">Inicio</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
+        <li class="item-menu">
+          <a href="#" class="enlace-menu">Dormitorio</a>
+        </li>
+        <li class="item-menu">
+          <a href="#" class="enlace-menu">Almacenamiento</a>
+        </li>
+        <li class="item-menu">
+          <a href="#" class="enlace-menu">Decoración</a>
+        </li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
+      </ul>
+    </nav>
+    <header
+      class="header p-4 shadow-[0_2px_8px_rgba(0,0,0,0.1)] sticky top-0 z-100"
+    >
+      <div class="header-superior flex justify-between items-center gap-12px">
+        <button
+          class="boton-menu bg-none border-none p-2 cursor-pointer flex items-center justify-between"
+          id="botonMenu"
+        >
+          <img src="../assets/iconos/menu.png" alt="Menú" class="icono" />
+        </button>
+        <img
+          src="../assets/logo/iconoClaro.png"
+          alt="Home Goods Haven"
+          class="icono-logo w-20 h-20"
+        />
+
+        <div class="logo flex-1 text-center">
+          <a href="#" class="logo-texto text-xl font-bold decoration-0"
+            >Home Goods Heaven</a
+          >
+        </div>
+
+        <button class="boton-icono">
+          <a href="../backend/forms/form_login.php"
+            ><img src="../assets/iconos/user.png" alt="Usuario" class="icono"
+          /></a>
+        </button>
+        <button class="boton-icono">
+          <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
+          <span
+            class="items-carrito absolute top-0.5 right-0.5 text-white text-[10px] px-1.5 py-0.5 rounded-[10px] min-w-4 text-center"
+            >0</span
+          >
+        </button>
+      </div>
+      <div class="barra-busqueda mt-3 relative">
+        <img
+          src="../assets/iconos/buscar.png"
+          alt="Buscar"
+          class="icono-busqueda absolute left-4 top-3 w-4 h-4"
+        />
+        <input
+          type="search"
+          class="entrada-input w-full py-3 px-4 pl-10 rounded-[25px] text-[14.4px] bg-white"
+          placeholder="Buscar muebles..."
+        />
+      </div>
+    </header>
+<main class="producto p-0 pb-4 grow">
+    
+    <div class="contenido flex flex-col md:flex-row md:flex-wrap md:px-4 lg:flex-wrap lg:justify-center">
+
+        <div class="imagen-columna flex flex-col md:w-2/3 md:order-1 lg:order-1 lg:w-1/4 md:p-2">
+            
+            <img
+                src="../assets/img/lamparaPie.jpg"
+                alt="Lampara de pie"
+                class="imgPrincipal w-full"
+            />
+            
+            <div class="imgSecundarias flex m-2">
+                <img
+                    src="../assets/img/lamparaPieAlt1.png"
+                    alt=""
+                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
+                />
+                <img
+                    src="../assets/img/lamparaPieAlt2.png"
+                    alt=""
+                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
+                />
+                <img
+                    src="../assets/img/lamparaPieAlt3.png"
+                    alt=""
+                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
+                />
+            </div>
+        </div>
+
+        <div class="info-contenedor md:w-full md:order-3 lg:w-2/5 lg:order-2 lg:mx-4 p-4">
+            <h1 class="nombreProducto text-3xl m-3.5">Lampara de pie</h1>
+            <h2 class="descripcion mt-3.5 ml-3.5">
+                Transforma cualquier rincón de tu hogar u oficina en un punto focal de
+                diseño con nuestra Lámpara de Pie "Doble Brazo", una pieza que rinde
+                homenaje al icónico estilo de Serge Mouille. Inspirada en los diseños
+                vanguardistas de mediados del siglo XX, esta lámpara combina una
+                estética escultórica y elegante con una funcionalidad excepcional.
+            </h2>
+        </div>
+        
+        <div class="compra flex flex-col justify-between gap-4 bg-white shadow-lg rounded-2xl p-4 mx-4 mt-6 mb-6 max-w-lg md:w-1/3 md:mx-0 md:order-2 lg:w-1/4 lg:order-3 lg:max-w-none border border-amber-200 md:self-stretch md:mt-2 lg:mt-2">
+            
+            <div class="flex flex-col gap-2">
+                <div class="flex justify-between items-center">
+                    <p class="text-lg">Stock:</p>
+                    <p class="text-lg">Disponible</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-lg">Precio:</p>
+                    <p class="text-lg"> €299.99</p>
+                </div>
+            </div>
+
+            <button class="comprar font-bold py-3 px-6 rounded-2xl transition duration-300 shadow-md hover:shadow-lg text-lg">
+                Comprar
+            </button>
+        </div>
+
+        <div class="productosSimilares-wrapper w-full mt-6 md:order-4 lg:order-4 px-4">
+            <h3 class="text-2xl font-bold mb-4">Productos similares</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                
+                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                    <img
+                        src="../assets/img/lamparaModerna.png"
+                        alt="Imagen de producto similar"
+                        class="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <p class="text-sm font-semibold">Lámpara moderna</p>
+                    <p class="text-sm text-gray-600">€249.99</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                    <img
+                        src="../assets/img/lamparaMinimalista.png"
+                        alt="Imagen de producto similar"
+                        class="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <p class="text-sm font-semibold">Lámpara minimalista</p>
+                    <p class="text-sm text-gray-600">€199.99</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                    <img
+                        src="../assets/img/lamparaTecho.png"
+                        alt="Imagen de producto similar"
+                        class="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <p class="text-sm font-semibold">Lámpara de techo</p>
+                    <p class="text-sm text-gray-600">€150.00</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+                    <img
+                        src="../assets/img/lamparaReajustable.png"
+                        alt="Imagen de producto similar"
+                        class="w-full h-32 object-cover rounded mb-2"
+                    />
+                    <p class="text-sm font-semibold">Foco ajustable</p>
+                    <p class="text-sm text-gray-600">€89.99</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+    <footer
+      class="pie-pagina bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.1)] sticky bottom-0 lg:hidden"
+    >
+      <nav class="nav-pie-pagina flex justify-around py-3 px-0">
+        <a href="#" class="enlace-pie-pagina activo">
+          <img src="../assets/iconos/inicio.png" alt="Inicio" class="icono" />
+          <span>Inicio</span>
+        </a>
+        <a href="#" class="enlace-pie-pagina">
+          <img
+            src="../assets/iconos/corazon.png"
+            alt="Favoritos"
+            class="icono"
+          />
+          <span>Favoritos</span>
+        </a>
+        <a href="#" class="enlace-pie-pagina">
+          <img src="../assets/iconos/user.png" alt="Perfil" class="icono" />
+          <span>Perfil</span>
+        </a>
+        <a href="#" class="enlace-pie-pagina">
+          <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
+          <span>Carrito</span>
+        </a>
+      </nav>
+    </footer>
+    <script src="../js/scrypt.js"></script>
+  </body>
+</html>

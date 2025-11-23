@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+    --color-texto: #4d2f23;
+    --color-fondo: #FAF7F4;
+    --color-principal: #A67C52;
+    --color-secundario: #8B6F47;
+    --color-accent: #D4825B;
+    --font-titulos: 'Montserrat', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
+@layer components {
+  body{
+    font-family: var(--font-body);
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+  }
+  .menu-overlay.active {
+    @apply visible opacity-100;
+  }
+  .menu-titulo{
+    font: (--font-titulos);
+    color: (var(--color-texto));
+  }
+  .enlace-menu {
+    @apply block text-[color:var(--color-texto)] no-underline font-medium px-6 py-4;
+  }
+  .item-menu{
+    @apply border-b border-gray-200;
+  }
+  .header{
+    background-color: var(--color-fondo);
+  }
+  .icono{
+    @apply w-6 h-6 block;
+  }
+  .boton-icono{
+    @apply bg-none border-none p-2 cursor-pointer relative;
+  }
+  .logo-texto {
+    font: (--font-titulos);
+    color: (var(--color-texto));
+  }
+  .items-carrito {
+    background-color: var(--color-accent);
+  }
+  .entrada-input{
+    border: 2px solid var(--color-principal);
+    font-family: var(--font-body);
+    color: var(--color-texto);
+    border-color: var(--color-secundario);
+  }
+  .enlace-pie-pagina{
+    color: var(--color-texto);
+    @apply flex flex-col items-center no-underline text-xs gap-1
+  }
+   .enlace-pie-pagina.activo{
+    color: var(--color-accent);
+  }
+  .imgSecundaria{
+    @apply w-40 h-40 ml-3.5
+  }
+  .nombreProducto{
+    color: var(--color-texto);
+  }
+  .descripcion{
+    color: var(--color-texto);
+  }
+  .comprar{
+    background-color: var(--color-principal);
+  }
+  .comprar:hover{
+    background-color: var(--color-accent);
+  }
+}

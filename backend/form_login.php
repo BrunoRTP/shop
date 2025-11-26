@@ -18,4 +18,7 @@
     </div>
 </div>
 
+<?php 
+    mysqli_close($conn);
+?>
 <?php include($root_dir . 'footer.php'); ?>

@@ -11,7 +11,6 @@
     $product_id = $_POST['product_id'];
     $quantity = $_POST['quantity'];
     
-    // Get product info and calculate price
     $sql = "SELECT name, price FROM 025_products WHERE id = $product_id";
     $result = mysqli_query($conn, $sql);
     $product = mysqli_fetch_assoc($result);

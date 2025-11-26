@@ -14,7 +14,6 @@
     }
 ?>
 <?php    
-    // Get products
     $sql = "SELECT * FROM 025_products";
     $result_products = mysqli_query($conn, $sql);
     $products = mysqli_fetch_all($result_products, MYSQLI_ASSOC);

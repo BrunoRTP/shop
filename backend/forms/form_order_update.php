@@ -9,17 +9,14 @@
     // capturar informacion de la bd
     $id = $_POST['id'];
     
-    // Get order
     $sql = "SELECT * FROM 025_order WHERE id = $id";
     $result = mysqli_query($conn, $sql);
     $order = mysqli_fetch_assoc($result);
     
-    // Get customers
     $sql = "SELECT * FROM 025_customers";
     $result_customers = mysqli_query($conn, $sql);
     $customers = mysqli_fetch_all($result_customers, MYSQLI_ASSOC);
     
-    // Get products
     $sql = "SELECT * FROM 025_products";
     $result_products = mysqli_query($conn, $sql);
     $products = mysqli_fetch_all($result_products, MYSQLI_ASSOC);

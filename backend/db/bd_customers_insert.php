@@ -39,6 +39,6 @@ include($root_dir . 'db_connection.php');
         }
         unset($_POST["insert_customer"]);
     }
-
+    mysqli_close($conn);
 ?>
 <?php include($root_dir . 'footer.php'); ?>

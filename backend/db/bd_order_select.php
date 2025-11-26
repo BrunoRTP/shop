@@ -18,5 +18,6 @@ include($root_dir . 'db_connection.php');
             echo "ID: " . $row['id'] . ", Cliente: " . $row['username'] . ", Producto: " . $row['product_name'] . ", Cantidad: " . $row['quantity'] . ", Precio: " . $row['price'] . "<br>";
         }
     }
+    mysqli_close($conn);
 ?>
 <?php include($root_dir . 'footer.php'); ?>

@@ -22,5 +22,7 @@
         <a href="/student025/shop/backend/orders.php" style="margin-left: 10px;">Cancelar</a>
     </form>
 </div>
-
+<?php
+    mysqli_close($conn);
+?>
 <?php include($root_dir . 'footer.php'); ?>

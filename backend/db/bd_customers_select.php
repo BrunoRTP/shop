@@ -15,5 +15,6 @@ include($root_dir . 'db_connection.php');
             echo "ID: " . $row['user_id'] . ", Nombre: " . $row['user_name'] . ", Email: " . $row['user_email'] . ", Dirección: " . $row['user_address'] . ", Fecha Registro: " . $row['user_register_date'] . "<br>";
         }
     }
+    mysqli_close($conn);
 ?>
 <?php include($root_dir . 'footer.php'); ?>

@@ -51,5 +51,6 @@ include($root_dir . 'db_connection.php');
             echo "Error en algún lado: " . mysqli_error($conn);
         }
     }
+    mysqli_close($conn);
 ?>
 <?php include($root_dir . 'footer.php'); ?>

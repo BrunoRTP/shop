@@ -63,6 +63,7 @@
         
         echo "<hr><br>"; 
     }
+    mysqli_close($conn);
 ?>
 
 <?php

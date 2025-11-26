@@ -43,7 +43,7 @@
             echo '</button>';
             echo '</div>';
         }
-        echo '<button>';
+        echo '<button onClick="location.href=\'/student025/shop/backend/db/db_cart_insert.php?id=' . $id . '\'" type="button">';
         echo '  <a href="/student025/shop/backend/db/db_cart_insert.php?id=' . $id . '" class="social-icon">Add to cart</a>';
         echo '</button>';
         echo '</div>';
@@ -52,6 +52,7 @@
         
         echo "<hr><br>"; 
     }
+    mysqli_close($conn);
 ?>
 <?php
     if($_SESSION['type_client'] == 'admin'){

@@ -14,15 +14,28 @@
     }
 ?>
 
-
+<div class="search-container">
+    <input 
+        type="text" 
+        id="search-input" 
+        placeholder="Buscar productos"
+    >
+    <div id="search-count"></div>
+</div>
 
 <hr>
+
+<div id="products-container">
 <?php
     $sql = "SELECT * FROM 025_products";
     $result = mysqli_query($conn, $sql); 
     while ($row = mysqli_fetch_assoc($result)) {
 
         $id = $row['id'];
+        $name = htmlspecialchars($row['name']);
+        $description = htmlspecialchars($row['description']);
+        
+        echo '<div class="producto-wrapper">'; 
         
         echo '<div class="producto-item">'; 
         
@@ -31,7 +44,7 @@
         echo '<div class="info-container">'; 
         
         echo '<div class="producto-info">';
-        echo "ID: " . $id . ", Nombre: " . $row['name'] . ", Descripcion: " . $row['description'] . " ";
+        echo "ID: " . $id . ", Nombre: " . $name . ", Descripcion: " . $description . " ";
         echo '</div>';
         if($_SESSION['type_client'] == 'admin'){
             echo '<div class="producto-acciones">';
@@ -50,10 +63,14 @@
         
         echo '</div>';
         
-        echo "<hr><br>"; 
+        echo '<hr><br>';
+        
+        echo '</div>'; 
     }
     mysqli_close($conn);
 ?>
+</div>
+
 <?php
     if($_SESSION['type_client'] == 'admin'){
         echo '<button>';
@@ -61,4 +78,7 @@
         echo '</button>';
     }
 ?>
+
+<script src="/student025/shop/js/search_products.js"></script>
+
 <?php include($root_dir . 'footer.php'); ?>

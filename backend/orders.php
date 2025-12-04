@@ -56,6 +56,9 @@
             echo '<button>';
             echo '  <a href="/student025/shop/backend/forms/form_order_delete_call.php?id=' . $id . '" class="social-icon">Delete</a>';
             echo '</button>';
+            echo '<button>';
+            echo '  <a href="/student025/shop/backend/forms/form_order_delete_call.php?id=' . $id . '" class="social-icon">Review</a>';
+            echo '</button>';
             echo '</div>';
         } else {
             echo '<div class="producto-acciones">';

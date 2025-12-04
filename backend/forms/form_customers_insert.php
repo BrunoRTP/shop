@@ -24,7 +24,7 @@
     <form action="/student025/shop/backend/db/bd_customers_insert.php" method="POST">
         
         <label for="username">Nombre de Usuario:</label>
-        <input type="text" name="username" pattern="[a-zA-Z0-9_]+" title="Solo letras, números y guiones bajos están permitidos." required><br><br>
+        <input type="text" name="username" pattern="[a-zA-Z0-9_@.]+" title="Solo letras, números y guiones bajos están permitidos." required><br><br>
 
         <label for="password">Contraseña:</label>
         <input type="password" name="password" minlength="4" required><br><br>

@@ -34,7 +34,7 @@
     <form action="/student025/shop/backend/db/bd_customers_update.php" method="POST">
         
         <label for="username">Nombre de Usuario:</label>
-        <input type="text" name="username" value="<?= $customer['username'] ?? '' ?>" pattern="[a-zA-Z0-9_]+" title="Solo letras, números y guiones bajos están permitidos." required><br><br>
+        <input type="text" name="username" value="<?= $customer['username'] ?? '' ?>" pattern="[a-zA-Z0-9_@.]+" title="Solo letras, números y guiones bajos están permitidos." required><br><br>
 
         <label for="password">Nueva Contraseña (dejar en blanco para mantener la actual):</label>
         <input type="password" name="password" minlength="6"><br><br>

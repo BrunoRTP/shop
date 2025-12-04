@@ -10,6 +10,7 @@
     $result = mysqli_query($conn, $sql);
     $products = mysqli_fetch_all($result, MYSQLI_ASSOC);
     $products_json = json_encode($products);
+    echo $products_json;
     mysqli_close($conn);
 
 ?>

@@ -39,35 +39,30 @@
                     $subtotal = $row['quantity'] * $row['price'];
                     $total += $subtotal;
                     
-                    echo '<tr>';
-                    echo '<td>' . $row['customer_id'] . '</td>';
-                    echo '<td>' . $row['name'] . '</td>';
-                    echo '<td>' . $row['quantity'] . '</td>';
-                    echo '<td>€' . number_format($row['price'], 2) . '</td>';
-                    echo '<td>€' . number_format($subtotal, 2) . '</td>';
-                    echo '<td>';
-                    
-                    echo '<a href="/student025/shop/backend/db/db_cart_insert.php?id=' . $product_id . '">';
-                    echo '<button type="button">Añadir</button>';
-                    echo '</a> ';
-                    
-                    echo '<a href="/student025/shop/backend/db/db_cart_delete.php?id=' . $product_id . '">';
-                    echo '<button type="button">Eliminar</button>';
-                    echo '</a>';
-                    
-                    echo '</td>';
+                    echo '<tr data-product-id="' . $product_id . '">';
+                        echo '<td>' . $row['customer_id'] . '</td>';
+                        echo '<td>' . $row['name'] . '</td>';
+                        echo '<td class="quantity-cell">' . $row['quantity'] . '</td>';
+                        echo '<td>€' . number_format($row['price'], 2) . '</td>';
+                        echo '<td class="subtotal-cell">€' . number_format($subtotal, 2) . '</td>';
+                        echo '<td>';
+                        
+                        echo '<button type="button" class="btn-add-cart" data-product-id="' . $product_id . '">Añadir</button> ';
+                        echo '<button type="button" class="btn-remove-cart" data-product-id="' . $product_id . '">Eliminar</button>';
+                        
+                        echo '</td>';
                     echo '</tr>';
                 }
                 
                 if(!$has_items){
-                    echo '<tr><td colspan="6">Tu carrito está vacío</td></tr>';
+                    echo '<tr class="empty-cart-row"><td colspan="6">Tu carrito está vacío</td></tr>';
                 }
             ?>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="4"><strong>Total:</strong></td>
-                <td><strong>€<?= number_format($total, 2) ?></strong></td>
+                <td><strong id="cart-total">€<?= number_format($total, 2) ?></strong></td>
                 <td></td>
             </tr>
         </tfoot>
@@ -79,11 +74,17 @@
     </button>
     
     <?php if($has_items): ?>
-    <button onclick="if(confirm('¿Confirmar pedido por €<?= number_format($total, 2) ?>?')) window.location.href='/student025/shop/backend/db/db_cart_checkout.php'">
+    <button id="checkout-btn" onclick="if(confirm('¿Confirmar pedido por €<?= number_format($total, 2) ?>?')) window.location.href='/student025/shop/backend/db/db_cart_checkout.php'">
+        Realizar Pedido
+    </button>
+    <?php else: ?>
+    <button id="checkout-btn" style="display: none;">
         Realizar Pedido
     </button>
     <?php endif; ?>
 </div>
+
+<script src="/student025/shop/js/cart.js"></script>
 
 <?php 
     mysqli_close($conn);

@@ -6,4 +6,5 @@
     }
 
     mysqli_set_charset($conn, "utf8");
+    mysqli_query($conn, "SET time_zone = '+01:00'");
 ?>

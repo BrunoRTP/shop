@@ -26,6 +26,12 @@ include($root_dir . 'db_connection.php');
         exit;
     }
     
+    // Establecer zona horaria de España
+    date_default_timezone_set('Europe/Madrid');
+    
+    // Obtener fecha y hora actual
+    $order_date = date('Y-m-d H:i:s');
+    
     $orders_created = 0;
     $errors = [];
     
@@ -34,8 +40,9 @@ include($root_dir . 'db_connection.php');
         $quantity = $item['quantity'];
         $price = $item['price'] * $quantity;
         
-        $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price) 
-                       VALUES ($customer_id, $product_id, $quantity, $price)";
+        // Insertar con la fecha actual
+        $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price, order_date) 
+                       VALUES ($customer_id, $product_id, $quantity, $price, '$order_date')";
         
         if(mysqli_query($conn, $sql_insert)){
             $orders_created++;
@@ -49,7 +56,7 @@ include($root_dir . 'db_connection.php');
         mysqli_query($conn, $sql_clear);
         
         echo "<h2>¡Pedido completado exitosamente!</h2>";
-        echo "<p>Se crearon $orders_created pedido(s).</p>";
+        echo "<p>Se crearon $orders_created pedido(s) el " . date('d/m/Y H:i', strtotime($order_date)) . ".</p>";
         echo "<p>Tu carrito ha sido vaciado.</p>";
         echo "<br><a href='/student025/shop/backend/orders.php'>Ver mis pedidos</a>";
         echo " | <a href='/student025/shop/backend/products.php'>Seguir comprando</a>";

@@ -15,10 +15,10 @@ include($root_dir . 'db_connection.php');
         $sql = "UPDATE 025_products 
                 SET name = '$name', 
                     description = '$description', 
-                    quantity_available = $quantity_available, 
-                    price = $price, 
-                    category_id = $category_id 
-                WHERE id = $id";
+                    quantity_available = '$quantity_available', 
+                    price = '$price', 
+                    category_id = '$category_id' 
+                WHERE id = '$id'";
 
         $result = mysqli_query($conn, $sql);
             

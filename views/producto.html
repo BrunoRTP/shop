@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/output.css" />
-    <title>Document</title>
+    <title>Producto - Home Goods Heaven</title>
   </head>
   <body class="flex flex-col">
     <div
@@ -27,7 +27,9 @@
         </button>
       </div>
       <ul class="lista-menu px-0 py-4">
-        <li class="item-menu"><a href="#" class="enlace-menu">Inicio</a></li>
+        <li class="item-menu">
+          <a href="../index.html" class="enlace-menu">Inicio</a>
+        </li>
         <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
@@ -60,7 +62,9 @@
         />
 
         <div class="logo flex-1 text-center">
-          <a href="#" class="logo-texto text-xl font-bold decoration-0"
+          <a
+            href="../index.html"
+            class="logo-texto text-xl font-bold decoration-0"
             >Home Goods Heaven</a
           >
         </div>
@@ -71,11 +75,17 @@
           /></a>
         </button>
         <button class="boton-icono">
-          <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
-          <span
-            class="items-carrito absolute top-0.5 right-0.5 text-white text-[10px] px-1.5 py-0.5 rounded-[10px] min-w-4 text-center"
-            >0</span
-          >
+          <a href="../backend/cart.php">
+            <img
+              src="../assets/iconos/carrito.png"
+              alt="Carrito"
+              class="icono"
+            />
+            <span
+              class="items-carrito absolute top-0.5 right-0.5 text-white text-[10px] px-1.5 py-0.5 rounded-[10px] min-w-4 text-center"
+              >0</span
+            >
+          </a>
         </button>
       </div>
       <div class="barra-busqueda mt-3 relative">
@@ -91,118 +101,85 @@
         />
       </div>
     </header>
-<main class="producto p-0 pb-4 grow">
-    
-    <div class="contenido flex flex-col md:flex-row md:flex-wrap md:px-4 lg:flex-wrap lg:justify-center">
+    <main class="producto p-0 pb-4 grow">
+      <div
+        class="contenido flex flex-col md:flex-row md:flex-wrap md:px-4 lg:flex-wrap lg:justify-center"
+      >
+        <div
+          class="imagen-columna flex flex-col md:w-2/3 md:order-1 lg:order-1 lg:w-1/4 md:p-2"
+        >
+          <img
+            src="../assets/img/lamparaPie.jpg"
+            alt="Producto"
+            class="imgPrincipal w-full"
+          />
 
-        <div class="imagen-columna flex flex-col md:w-2/3 md:order-1 lg:order-1 lg:w-1/4 md:p-2">
-            
+          <div class="imgSecundarias flex m-2">
             <img
-                src="../assets/img/lamparaPie.jpg"
-                alt="Lampara de pie"
-                class="imgPrincipal w-full"
+              src="../assets/img/lamparaPieAlt1.png"
+              alt=""
+              class="imgSecundaria w-1/4 h-auto object-cover m-1"
             />
-            
-            <div class="imgSecundarias flex m-2">
-                <img
-                    src="../assets/img/lamparaPieAlt1.png"
-                    alt=""
-                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
-                />
-                <img
-                    src="../assets/img/lamparaPieAlt2.png"
-                    alt=""
-                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
-                />
-                <img
-                    src="../assets/img/lamparaPieAlt3.png"
-                    alt=""
-                    class="imgSecundaria w-1/4 h-auto object-cover m-1"
-                />
-            </div>
+            <img
+              src="../assets/img/lamparaPieAlt2.png"
+              alt=""
+              class="imgSecundaria w-1/4 h-auto object-cover m-1"
+            />
+            <img
+              src="../assets/img/lamparaPieAlt3.png"
+              alt=""
+              class="imgSecundaria w-1/4 h-auto object-cover m-1"
+            />
+          </div>
         </div>
 
-        <div class="info-contenedor md:w-full md:order-3 lg:w-2/5 lg:order-2 lg:mx-4 p-4">
-            <h1 class="nombreProducto text-3xl m-3.5">Lampara de pie</h1>
-            <h2 class="descripcion mt-3.5 ml-3.5">
-                Transforma cualquier rincón de tu hogar u oficina en un punto focal de
-                diseño con nuestra Lámpara de Pie "Doble Brazo", una pieza que rinde
-                homenaje al icónico estilo de Serge Mouille. Inspirada en los diseños
-                vanguardistas de mediados del siglo XX, esta lámpara combina una
-                estética escultórica y elegante con una funcionalidad excepcional.
-            </h2>
-        </div>
-        
-        <div class="compra flex flex-col justify-between gap-4 bg-white shadow-lg rounded-2xl p-4 mx-4 mt-6 mb-6 max-w-lg md:w-1/3 md:mx-0 md:order-2 lg:w-1/4 lg:order-3 lg:max-w-none border border-amber-200 md:self-stretch md:mt-2 lg:mt-2">
-            
-            <div class="flex flex-col gap-2">
-                <div class="flex justify-between items-center">
-                    <p class="text-lg">Stock:</p>
-                    <p class="text-lg">Disponible</p>
-                </div>
-                <div class="flex justify-between items-center">
-                    <p class="text-lg">Precio:</p>
-                    <p class="text-lg"> €299.99</p>
-                </div>
-            </div>
-
-            <button class="comprar font-bold py-3 px-6 rounded-2xl transition duration-300 shadow-md hover:shadow-lg text-lg">
-                Comprar
-            </button>
+        <div
+          class="info-contenedor md:w-full md:order-3 lg:w-2/5 lg:order-2 lg:mx-4 p-4"
+        >
+          <h1 class="nombreProducto text-3xl m-3.5">Cargando...</h1>
+          <h2 class="descripcion mt-3.5 ml-3.5">
+            Cargando descripción del producto...
+          </h2>
         </div>
 
-        <div class="productosSimilares-wrapper w-full mt-6 md:order-4 lg:order-4 px-4">
-            <h3 class="text-2xl font-bold mb-4">Productos similares</h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                
-                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
-                    <img
-                        src="../assets/img/lamparaModerna.png"
-                        alt="Imagen de producto similar"
-                        class="w-full h-32 object-cover rounded mb-2"
-                    />
-                    <p class="text-sm font-semibold">Lámpara moderna</p>
-                    <p class="text-sm text-gray-600">€249.99</p>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
-                    <img
-                        src="../assets/img/lamparaMinimalista.png"
-                        alt="Imagen de producto similar"
-                        class="w-full h-32 object-cover rounded mb-2"
-                    />
-                    <p class="text-sm font-semibold">Lámpara minimalista</p>
-                    <p class="text-sm text-gray-600">€199.99</p>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
-                    <img
-                        src="../assets/img/lamparaTecho.png"
-                        alt="Imagen de producto similar"
-                        class="w-full h-32 object-cover rounded mb-2"
-                    />
-                    <p class="text-sm font-semibold">Lámpara de techo</p>
-                    <p class="text-sm text-gray-600">€150.00</p>
-                </div>
-                
-                <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
-                    <img
-                        src="../assets/img/lamparaReajustable.png"
-                        alt="Imagen de producto similar"
-                        class="w-full h-32 object-cover rounded mb-2"
-                    />
-                    <p class="text-sm font-semibold">Foco ajustable</p>
-                    <p class="text-sm text-gray-600">€89.99</p>
-                </div>
+        <div
+          class="compra flex flex-col justify-between gap-4 bg-white shadow-lg rounded-2xl p-4 mx-4 mt-6 mb-6 max-w-lg md:w-1/3 md:mx-0 md:order-2 lg:w-1/4 lg:order-3 lg:max-w-none border border-amber-200 md:self-stretch md:mt-2 lg:mt-2"
+        >
+          <div class="flex flex-col gap-2">
+            <div class="flex justify-between items-center">
+              <p class="text-lg">Stock:</p>
+              <p class="text-lg stock-valor">Cargando...</p>
             </div>
+            <div class="flex justify-between items-center">
+              <p class="text-lg">Precio:</p>
+              <p class="text-lg precio-valor">€0.00</p>
+            </div>
+          </div>
+
+          <button
+            class="comprar font-bold py-3 px-6 rounded-2xl transition duration-300 shadow-md hover:shadow-lg text-lg"
+          >
+            Añadir al carrito
+          </button>
         </div>
-    </div>
-</main>
+
+        <div
+          class="productosSimilares-wrapper w-full mt-6 md:order-4 lg:order-4 px-4"
+        >
+          <h3 class="text-2xl font-bold mb-4">Productos similares</h3>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="bg-white rounded-lg shadow p-4 border border-gray-200">
+              <p class="text-sm font-semibold">Cargando...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
     <footer
       class="pie-pagina bg-white shadow-[0_-2px_8px_rgba(0,0,0,0.1)] sticky bottom-0 lg:hidden"
     >
       <nav class="nav-pie-pagina flex justify-around py-3 px-0">
-        <a href="#" class="enlace-pie-pagina activo">
+        <a href="../index.html" class="enlace-pie-pagina">
           <img src="../assets/iconos/inicio.png" alt="Inicio" class="icono" />
           <span>Inicio</span>
         </a>
@@ -214,16 +191,17 @@
           />
           <span>Favoritos</span>
         </a>
-        <a href="#" class="enlace-pie-pagina">
+        <a href="../backend/forms/form_login.php" class="enlace-pie-pagina">
           <img src="../assets/iconos/user.png" alt="Perfil" class="icono" />
           <span>Perfil</span>
         </a>
-        <a href="#" class="enlace-pie-pagina">
+        <a href="../backend/cart.php" class="enlace-pie-pagina">
           <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
           <span>Carrito</span>
         </a>
       </nav>
     </footer>
     <script src="../js/scrypt.js"></script>
+    <script src="../js/producto.js"></script>
   </body>
 </html>

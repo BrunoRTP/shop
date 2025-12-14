@@ -14,10 +14,14 @@
         </div>
         <ul class="nav-links">
             <?php    
-                echo'<li><a href="/student025/shop/backend/products.php">Products</a></li>';
-                echo'<li><a href="/student025/shop/backend/orders.php">Orders</a></li>';
-                echo'<li><a href="/student025/shop/backend/customers.php">Customers</a></li>';
+                echo '<li><a href="/student025/shop/backend/products.php">Products</a></li>';
+                echo '<li><a href="/student025/shop/backend/orders.php">Orders</a></li>';
+                echo '<li><a href="/student025/shop/backend/customers.php">Customers</a></li>';
                 echo '<li><a href="/student025/shop/backend/cart.php">Cart</a></li>';
+                if(isset($_SESSION['type_client']) && $_SESSION['type_client'] == 'admin'){
+                    echo '<li><a href="/student025/shop/backend/reviews.php">Reviews</a></li>';
+                }
+                
                 echo '<li><a href="/student025/shop/backend/logout.php">Close session</a></li>';
             ?>
         </ul>

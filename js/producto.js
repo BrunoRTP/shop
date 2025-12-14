@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Cargar datos del producto
-    fetch(`/student025/shop/backend/ajax/get_product_detail.php?id=${productId}`)
+    fetch(`https://remotehost.es/student025/shop/backend/ajax/get_product_detail.php?id=${productId}`)
         .then(response => {
             if(!response.ok) {
                 throw new Error('Error al cargar el producto');

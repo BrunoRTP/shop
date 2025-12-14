@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    fetch('/student025/shop/backend/ajax/get_products.php')
+    fetch('https://remotehost.es/student025/shop/backend/ajax/get_products.php')
         .then(response => response.json())
         .then(products => {
             if(products.length > 0) {

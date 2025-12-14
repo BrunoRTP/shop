@@ -1,5 +1,5 @@
 <?php
-    $conn = mysqli_connect('remotehost.es', 'dwes1234', 'usertest1234.', 'dwesdatabase');
+    $conn = mysqli_connect('remotehost.es', 'dwess1234', 'Usertest1234.', 'dwesdatabase');
     if(!$conn){
         echo "Connection error: " . mysqli_connect_error();
         exit();

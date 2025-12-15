@@ -1,0 +1,81 @@
+// Sistema de sesión de invitado para el frontend
+class GuestSession {
+    constructor() {
+        this.init();
+    }
+    
+    init() {
+        // Verificar si ya existe una sesión
+        let session = this.getSession();
+        
+        if (!session) {
+            // Crear nueva sesión de invitado
+            session = {
+                user_id: 'guest_' + Date.now(),
+                username: 'invitado',
+                type_client: 'guest',
+                is_guest: true,
+                created_at: new Date().toISOString()
+            };
+            
+            // Guardar en memoria del navegador (durante la sesión actual)
+            this.saveSession(session);
+            
+            // Crear sesión en el backend
+            this.createBackendSession();
+        }
+    }
+    
+    getSession() {
+        const sessionData = sessionStorage.getItem('guest_session');
+        return sessionData ? JSON.parse(sessionData) : null;
+    }
+    
+    saveSession(session) {
+        sessionStorage.setItem('guest_session', JSON.stringify(session));
+    }
+    
+    async createBackendSession() {
+        try {
+            const response = await fetch('backend/ajax/create_guest_session.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'create_guest_session'
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                console.log('Sesión de invitado creada en el backend');
+            }
+        } catch (error) {
+            console.error('Error creando sesión de invitado:', error);
+        }
+    }
+    
+    isGuest() {
+        const session = this.getSession();
+        return session && session.is_guest === true;
+    }
+    
+    getUsername() {
+        const session = this.getSession();
+        return session ? session.username : 'invitado';
+    }
+    
+    logout() {
+        sessionStorage.removeItem('guest_session');
+        // Redirigir al backend para cerrar sesión PHP también
+        window.location.href = 'backend/logout.php';
+    }
+}
+
+// Inicializar automáticamente al cargar la página
+const guestSession = new GuestSession();
+
+// Hacer disponible globalmente
+window.guestSession = guestSession;

@@ -55,12 +55,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            // Actualizar botón de compra con ID del producto
+            // SOLUCIÓN: Configurar botón de compra para añadir sin redirección
             const buyButton = document.querySelector('.comprar');
             if(buyButton) {
-                buyButton.onclick = function() {
-                    window.location.href = `/student025/shop/backend/db/db_cart_insert.php?id=${product.id}`;
-                };
+                // Deshabilitar si no hay stock
+                if(product.stock <= 0) {
+                    buyButton.disabled = true;
+                    buyButton.textContent = 'Sin stock';
+                    buyButton.style.opacity = '0.5';
+                    buyButton.style.cursor = 'not-allowed';
+                } else {
+                    buyButton.onclick = function(e) {
+                        e.preventDefault(); // Prevenir comportamiento por defecto
+                        addToCart(product.id, buyButton);
+                    };
+                }
             }
             
             // Cargar productos similares
@@ -74,6 +83,74 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.descripcion').textContent = error.message;
         });
 });
+
+// Función para añadir producto al carrito sin redirección
+function addToCart(productId, button) {
+    // Guardar texto original del botón
+    const originalText = button.textContent;
+    
+    // Mostrar feedback visual
+    button.disabled = true;
+    button.textContent = 'Añadiendo...';
+    
+    // Crear FormData para enviar datos
+    const formData = new FormData();
+    formData.append('product_id', productId);
+    formData.append('action', 'add');
+    
+    // Hacer petición para añadir al carrito usando el endpoint AJAX
+    fetch('https://remotehost.es/student025/shop/backend/ajax/update_cart.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data.success) {
+                // Mostrar mensaje de éxito
+                button.textContent = '✓ Añadido';
+                button.style.backgroundColor = '#4CAF50';
+                
+                // Actualizar contador del carrito con el valor del servidor
+                updateCartCount(data.total_items);
+                
+                // Restaurar botón después de 2 segundos
+                setTimeout(() => {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                    button.style.backgroundColor = '';
+                }, 2000);
+            } else {
+                throw new Error(data.message || 'Error al añadir al carrito');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Mostrar mensaje de error
+            button.textContent = '✗ Error';
+            button.style.backgroundColor = '#f44336';
+            
+            // Restaurar botón después de 2 segundos
+            setTimeout(() => {
+                button.disabled = false;
+                button.textContent = originalText;
+                button.style.backgroundColor = '';
+            }, 2000);
+        });
+}
+
+// Función para actualizar contador del carrito
+function updateCartCount(totalItems) {
+    const cartCountElement = document.querySelector('.items-carrito');
+    if(cartCountElement && totalItems !== undefined) {
+        cartCountElement.textContent = totalItems;
+    }
+}
 
 function loadSimilarProducts(products) {
     const container = document.querySelector('.productosSimilares-wrapper .grid');

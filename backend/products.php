@@ -30,42 +30,48 @@
     $sql = "SELECT * FROM 025_products";
     $result = mysqli_query($conn, $sql); 
     while ($row = mysqli_fetch_assoc($result)) {
-
         $id = $row['id'];
         $name = htmlspecialchars($row['name']);
         $description = htmlspecialchars($row['description']);
         
-        echo '<div class="producto-wrapper">'; 
-        
-        echo '<div class="producto-item">'; 
-        
-        echo '<img src="/student025/shop/assets/img/ph.jpg" class="mueble-placeholder">';
-        
-        echo '<div class="info-container">'; 
-        
-        echo '<div class="producto-info">';
-        echo "ID: " . $id . ", Nombre: " . $name . ", Descripcion: " . $description . " ";
-        echo '</div>';
-        if($_SESSION['type_client'] == 'admin'){
-            echo '<div class="producto-acciones">';
-            echo '<button>';
-            echo '  <a href="/student025/shop/backend/forms/form_products_update_call.php?id=' . $id . '" class="social-icon">Update</a>';
-            echo '</button>';
-            echo '<button>';
-            echo '  <a href="/student025/shop/backend/forms/form_products_delete_call.php?id=' . $id . '" class="social-icon">Delete</a>';
-            echo '</button>';
-            echo '</div>';
+        // Verificar si tiene imagen
+        $image_src = '/student025/shop/assets/img/ph.jpg'; // Placeholder por defecto
+        if(!empty($row['image']) && $row['image'] !== null) {
+            // Convertir el BLOB a base64 para mostrarlo
+            $image_data = base64_encode($row['image']);
+            $image_src = 'data:image/jpeg;base64,' . $image_data;
         }
-        echo '<button onClick="location.href=\'/student025/shop/backend/db/db_cart_insert.php?id=' . $id . '\'" type="button">';
-        echo '  <a href="/student025/shop/backend/db/db_cart_insert.php?id=' . $id . '" class="social-icon">Add to cart</a>';
-        echo '</button>';
-        echo '</div>';
+        ?>
         
-        echo '</div>';
+        <div class="producto-wrapper">
+            <div class="producto-item">
+                <img src="<?= $image_src ?>" class="mueble-placeholder" alt="<?= $name ?>">
+                
+                <div class="info-container">
+                    <div class="producto-info">
+                        ID: <?= $id ?>, Nombre: <?= $name ?>, Descripción: <?= $description ?>
+                    </div>
+                    
+                    <?php if($_SESSION['type_client'] == 'admin'): ?>
+                    <div class="producto-acciones">
+                        <button>
+                            <a href="/student025/shop/backend/forms/form_products_update_call.php?id=<?= $id ?>" class="social-icon">Update</a>
+                        </button>
+                        <button>
+                            <a href="/student025/shop/backend/forms/form_products_delete_call.php?id=<?= $id ?>" class="social-icon">Delete</a>
+                        </button>
+                    </div>
+                    <?php endif; ?>
+                    
+                    <button onclick="location.href='/student025/shop/backend/db/db_cart_insert.php?id=<?= $id ?>'" type="button">
+                        <a href="/student025/shop/backend/db/db_cart_insert.php?id=<?= $id ?>" class="social-icon">Add to cart</a>
+                    </button>
+                </div>
+            </div>
+            <hr><br>
+        </div>
         
-        echo '<hr><br>';
-        
-        echo '</div>'; 
+        <?php
     }
     mysqli_close($conn);
 ?>

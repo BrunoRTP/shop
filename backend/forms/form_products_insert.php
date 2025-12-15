@@ -5,44 +5,72 @@
     include($root_dir . 'header.php'); 
     include($root_dir . 'db_connection.php'); 
 ?>
-<?php    
+<?php 
+    // capturar informacion de la bd
+    $id = $_POST['id'];
+    // Get products
+    $sql = "SELECT * FROM 025_products WHERE id = $id";
+    $result = mysqli_query($conn, $sql);
+    $product = mysqli_fetch_assoc($result);
+    // Get categories
     $sql = "SELECT * FROM 025_categories";
     $result_categories = mysqli_query($conn, $sql);
     $categories = mysqli_fetch_all($result_categories, MYSQLI_ASSOC);
+    
+    // Preparar la imagen actual si existe
+    $current_image = null;
+    if(!empty($product['image'])) {
+        $current_image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+    }
+    
     mysqli_close($conn)
 ?>
 <div class="container" style="padding: 20px;">
-    <h2>Añadir Nuevo Producto</h2>
+    <h2>Actualizar Producto</h2>
     
-    <form action="/student025/shop/backend/db/bd_products_insert.php" method="POST">
+    <form action="/student025/shop/backend/db/bd_products_update.php" method="POST" enctype="multipart/form-data">
         
         <label for="name">Nombre del Producto:</label>
-        <input type="text" name="name" pattern="[a-zA-Z0-9]+" title="Solo letras y números están permitidos." required><br><br>
+        <input type="text" name="name" value="<?= htmlspecialchars($product['name'] ?? '') ?>" required><br><br>
 
         <label for="description">Descripción:</label>
-        <textarea name="description" pattern="[a-zA-Z0-9]+" required></textarea><br><br>
+        <textarea name="description"><?= htmlspecialchars($product['description'] ?? '') ?></textarea><br><br>
 
         <label for="quantity">Cantidad en Stock:</label>
-        <input type="number" name="quantity_available" required min="0"><br><br>
+        <input type="number" name="quantity_available" required min="0" value="<?= $product['stock'] ?? 0 ?>"><br><br>
 
         <label for="price">Precio:</label>
-        <input type="number" name="price" required min="0"><br><br>
+        <input type="number" name="price" required min="0" step="0.01" value="<?= $product['price'] ?? 0 ?>"><br><br>
+        
         <label for="category_id">Categoría:</label>
         <select name="category_id" required>
             <?php
-                // Fetch categories
                 foreach($categories as $category){
-                    $selected = $product['id'] == $category['id'] ? 'selected' : '';
+                    $selected = $product['category_id'] == $category['id'] ? 'selected' : '';
                     echo "<option value=\"{$category['id']}\" {$selected}>{$category['name']}</option>";
                 }
             ?>
         </select>
         <br><br>
         
-
-        <button type="submit" name="insert_product">Guardar Producto</button>
+        <?php if($current_image): ?>
+        <div style="margin-bottom: 20px;">
+            <label>Imagen actual:</label><br>
+            <img src="<?= $current_image ?>" alt="Imagen actual" style="max-width: 300px; max-height: 300px; border: 2px solid #dbb69f; border-radius: 8px;">
+        </div>
+        <?php endif; ?>
         
-        <a href= "/student025/shop/backend/products.php" style="margin-left: 10px;">Cancelar</a>
+        <label for="product_image">
+            <?= $current_image ? 'Cambiar imagen:' : 'Añadir imagen:' ?>
+        </label>
+        <input type="file" name="product_image" id="product_image" accept="image/jpeg,image/png,image/jpg">
+        <br><br>
+
+        <input type="hidden" name="id" value="<?= $product['id'] ?? '' ?>">
+
+        <button type="submit" name="update_product">Guardar Cambios</button>
+        
+        <a href="/student025/shop/backend/products.php" style="margin-left: 10px;">Cancelar</a>
     </form>
 </div>
 

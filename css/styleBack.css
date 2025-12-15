@@ -2,6 +2,7 @@ body {
     margin: 0;
     font-family: 'Arial', sans-serif;
     background-color: #f3e9dd;
+    padding-bottom: 120px;
 }
 
 .navbar {
@@ -298,20 +299,28 @@ body {
 
 /* ESTILOS PARA CUSTOMERS (Customers.php)*/
 
-/* Reutiliza la mayoría de estilos de productos */
-.cliente-wrapper {
-    background-color: white;
-    border: 1px solid #e0d5c8;
-    border-radius: 10px;
+/* Contenedor principal de customers */
+#customers-container {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cliente-wrapper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+/* Icono de customer */
+.customer-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border: 2px solid #e0d5c8;
+    flex-shrink: 0;
+}
+
+.customer-icon-emoji {
+    font-size: 60px;
 }
 
 /* ESTILOS PARA ORDERS (Orders.php)*/
@@ -325,6 +334,7 @@ body {
     margin-bottom: 30px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
 
 .order-group-header {
     background-color: #dbb69f;

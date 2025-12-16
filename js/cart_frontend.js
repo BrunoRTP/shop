@@ -2,19 +2,35 @@
 class CartFrontend {
     constructor() {
         this.cartCount = 0;
+        this.baseUrl = this.getBaseUrl();
         this.init();
     }
     
+    getBaseUrl() {
+        const isRemote = window.location.hostname.includes('remotehost.es');
+        // Detectar si estamos en la carpeta views o en la raíz
+        const isInViews = window.location.pathname.includes('/views/');
+        
+        if (isRemote) {
+            return 'https://remotehost.es/student025/shop';
+        } else {
+            return isInViews ? '..' : '.';
+        }
+    }
+    
     init() {
-        // Cargar cantidad actual del carrito
-        this.updateCartCount();
+        // Cargar cantidad actual del carrito al iniciar
+        // Esperar un momento para asegurar que la sesión esté lista
+        setTimeout(() => {
+            this.updateCartCount();
+        }, 100);
     }
     
     async addToCart(productId) {
         console.log('Añadiendo producto al carrito:', productId);
         
         try {
-            const response = await fetch('backend/ajax/cart_insert.php', {
+            const response = await fetch(`${this.baseUrl}/backend/ajax/cart_insert.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,15 +64,30 @@ class CartFrontend {
     
     async updateCartCount() {
         try {
-            const response = await fetch('backend/ajax/get_cart_count.php');
+            console.log('Cargando contador del carrito desde:', `${this.baseUrl}/backend/ajax/get_cart_count.php`);
+            
+            const response = await fetch(`${this.baseUrl}/backend/ajax/get_cart_count.php`);
+            
+            console.log('Respuesta recibida:', response.status);
+            
             const data = await response.json();
+            
+            console.log('Datos del contador:', data);
             
             if (data.success) {
                 this.cartCount = data.count;
                 this.updateCartUI();
+                console.log('Contador actualizado a:', this.cartCount);
+            } else {
+                // Si no hay sesión o error, mostrar 0
+                console.warn('No hay sesión activa o error:', data.message);
+                this.cartCount = 0;
+                this.updateCartUI();
             }
         } catch (error) {
             console.error('Error obteniendo cantidad del carrito:', error);
+            this.cartCount = 0;
+            this.updateCartUI();
         }
     }
     
@@ -94,7 +125,7 @@ class CartFrontend {
                 <span style="font-size: 24px;">✓</span>
                 <div>
                     <strong>${message}</strong><br>
-                    <small><a href="backend/cart.php" style="color: white; text-decoration: underline;">Ver carrito</a></small>
+                    <small><a href="${this.baseUrl}/backend/cart.php" style="color: white; text-decoration: underline;">Ver carrito</a></small>
                 </div>
             `;
         } else {

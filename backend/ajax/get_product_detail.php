@@ -13,7 +13,7 @@ if($product_id <= 0) {
 }
 
 // Obtener el producto principal
-$sql = "SELECT p.id, p.name, p.description, p.stock, p.price, c.name as category_name
+$sql = "SELECT p.id, p.name, p.description, p.stock, p.price, p.image, c.name as category_name
         FROM 025_products p
         LEFT JOIN 025_categories c ON p.category_id = c.id
         WHERE p.id = $product_id";
@@ -27,9 +27,14 @@ if(!$result || mysqli_num_rows($result) == 0) {
 
 $product = mysqli_fetch_assoc($result);
 
+// Convertir imagen principal a base64 si existe
+$main_image = null;
+if(!empty($product['image'])) {
+    $main_image = 'data:image/jpeg;base64,' . base64_encode($product['image']);
+}
+
 // Obtener productos similares (misma categoría, excluyendo el actual)
-$category_id = isset($product['category_id']) ? $product['category_id'] : 0;
-$sql_similar = "SELECT id, name, price
+$sql_similar = "SELECT id, name, price, image
                 FROM 025_products
                 WHERE category_id = (SELECT category_id FROM 025_products WHERE id = $product_id)
                 AND id != $product_id
@@ -40,10 +45,17 @@ $similar_products = array();
 
 if($result_similar) {
     while($row = mysqli_fetch_assoc($result_similar)) {
+        // Convertir imagen a base64 si existe
+        $similar_image = null;
+        if(!empty($row['image'])) {
+            $similar_image = 'data:image/jpeg;base64,' . base64_encode($row['image']);
+        }
+        
         $similar_products[] = array(
             'id' => $row['id'],
             'name' => $row['name'],
-            'price' => number_format($row['price'], 2)
+            'price' => number_format($row['price'], 2),
+            'image_data' => $similar_image
         );
     }
 }
@@ -56,11 +68,11 @@ $response = array(
     'stock' => $product['stock'],
     'price' => number_format($product['price'], 2),
     'category' => $product['category_name'],
-    'image' => '../assets/img/lamparaPie.jpg',
+    'image' => $main_image ? $main_image : '../assets/img/ph.jpg',
     'images' => array(
-        '../assets/img/lamparaPieAlt1.png',
-        '../assets/img/lamparaPieAlt2.png',
-        '../assets/img/lamparaPieAlt3.png'
+        $main_image ? $main_image : '../assets/img/lamparaPieAlt1.png',
+        $main_image ? $main_image : '../assets/img/lamparaPieAlt2.png',
+        $main_image ? $main_image : '../assets/img/lamparaPieAlt3.png'
     ),
     'similar_products' => $similar_products
 );

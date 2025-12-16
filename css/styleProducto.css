@@ -1,36 +1,43 @@
 @import "tailwindcss";
 
-:root {
+@font-face {
+  font-family: 'Montserrat';
+  src: url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+}
+
+@theme {
     --color-texto: #4d2f23;
     --color-fondo: #FAF7F4;
     --color-principal: #A67C52;
     --color-secundario: #8B6F47;
     --color-accent: #D4825B;
-    --font-titulos: 'Montserrat', sans-serif;
-    --font-body: 'Open Sans', sans-serif;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-open-sans: 'Open Sans', sans-serif;
 }
 
 @layer components {
   body{
-    font-family: var(--font-body);
-    background-color: var(--color-fondo);
-    color: var(--color-texto);
+    @apply font-montserrat bg-fondo text-texto;
   }
   .menu-overlay.active {
     @apply visible opacity-100;
   }
   .menu-titulo{
-    font: (--font-titulos);
-    color: (var(--color-texto));
+    @apply font-titulos text-texto
   }
   .enlace-menu {
-    @apply block text-[color:var(--color-texto)] no-underline font-medium px-6 py-4;
+    @apply block text-texto no-underline font-medium px-6 py-4;
   }
   .item-menu{
     @apply border-b border-gray-200;
   }
   .header{
-    background-color: var(--color-fondo);
+    @apply bg-fondo;
   }
   .icono{
     @apply w-6 h-6 block;

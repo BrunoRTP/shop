@@ -107,6 +107,4 @@
 ?>
 </div>
 
-<script src="/student025/shop/js/search_reviews.js"></script>
-
 <?php include($root_dir . 'footer.php'); ?>

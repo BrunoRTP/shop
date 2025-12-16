@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Determinar la URL base según donde estemos
+    const isRemote = window.location.hostname.includes('remotehost.es');
+    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '.';
     
-    fetch('https://remotehost.es/student025/shop/backend/ajax/get_products.php')
+    fetch(`${baseUrl}/backend/ajax/get_products.php`)
         .then(response => response.json())
         .then(products => {
             if(products.length > 0) {
@@ -11,11 +14,23 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Error:', error));
     
     function loadHeroProduct(product) {
-        document.querySelector('.imagen-hero').src = product.image;
-        document.querySelector('.titulo-hero').textContent = product.name;
-        document.querySelector('.subtitulo-hero').textContent = product.description;
-        document.querySelector('.precio-hero').textContent = '€' + product.price;
-        document.querySelector('.boton-cta-hero a').href = 'views/producto.html?id=' + product.id;
+        const heroImage = document.querySelector('.imagen-hero');
+        const heroTitle = document.querySelector('.titulo-hero');
+        const heroSubtitle = document.querySelector('.subtitulo-hero');
+        const heroPrice = document.querySelector('.precio-hero');
+        const heroButton = document.querySelector('.boton-cta-hero a');
+        
+        // Cargar imagen de la base de datos o placeholder
+        if(product.image_data) {
+            heroImage.src = product.image_data;
+        } else {
+            heroImage.src = 'assets/img/ph.jpg';
+        }
+        
+        heroTitle.textContent = product.name;
+        heroSubtitle.textContent = product.description;
+        heroPrice.textContent = '€' + product.price;
+        heroButton.href = 'views/producto.html?id=' + product.id;
     }
     
     function loadOtherProducts(products) {
@@ -23,10 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
         
         products.forEach(product => {
+            // Determinar la imagen a usar
+            const imageSrc = product.image_data ? product.image_data : 'assets/img/ph.jpg';
+            
             container.innerHTML += `
                 <article class="zona-producto">
                     <div class="contenedor-imagen-producto">
-                        <img src="${product.image}" alt="${product.name}" class="imagen-producto">
+                        <img src="${imageSrc}" alt="${product.name}" class="imagen-producto">
                         <button class="boton-favorito">
                             <img src="assets/iconos/corazon.png" alt="Favorito" class="icono">
                         </button>

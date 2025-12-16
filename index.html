@@ -14,27 +14,31 @@
 <body>
     <div class="menu-overlay" id="menuOverlay"></div>
     <nav class="menu-lateral" id="menuLateral">
-        <div class="menu-cabecera">
-            <h2 class="menu-titulo">Menú</h2>
-            <button class="cerrar-menu" id="cerrarMenu">
-                <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
-            </button>
-        </div>
-        <ul class="lista-menu">
-            <li class="item-menu"><a href="index.html" class="enlace-menu">Inicio</a></li>
-            <li class="item-menu"><a href="backend/products.php" class="enlace-menu">Productos</a></li>
-            <li class="item-menu"><a href="backend/cart.php" class="enlace-menu">Carrito</a></li>
-            <li class="item-menu"><a href="backend/orders.php" class="enlace-menu">Mis Pedidos</a></li>
-            <li class="item-menu" style="border-top: 2px solid #ddd; margin-top: 10px; padding-top: 10px;">
-                <div style="padding: 10px 24px; color: #666;">
-                    <small>Usuario: <span id="menu-username">invitado</span></small>
-                </div>
-            </li>
-            <li class="item-menu">
-                <a href="backend/forms/form_login.php" class="enlace-menu" id="menu-login-link">Iniciar Sesión</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="menu-cabecera">
+        <h2 class="menu-titulo">Menú</h2>
+        <button class="cerrar-menu" id="cerrarMenu">
+            <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
+        </button>
+    </div>
+    <ul class="lista-menu">
+        <li class="item-menu"><a href="index.html" class="enlace-menu">Inicio</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Dormitorio</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Almacenamiento</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Decoración</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
+        <li class="item-menu" style="border-top: 2px solid #ddd; margin-top: 10px; padding-top: 10px;">
+            <div style="padding: 10px 24px; color: #666;">
+                <small>Usuario: <span id="menu-username">invitado</span></small>
+            </div>
+        </li>
+        <li class="item-menu">
+            <a href="backend/forms/form_login.php" class="enlace-menu" id="menu-login-link">Iniciar Sesión</a>
+        </li>
+    </ul>
+</nav>
 
     <header class="header">
         <div class="header-superior">
@@ -53,7 +57,7 @@
                 </a>
             </button>
             <button class="boton-icono">
-                <a href="backend/cart.php">
+                <a href="views/carrito.html">
                     <img src="assets/iconos/carrito.png" alt="Carrito" class="icono">
                     <span class="items-carrito" id="cart-count">0</span>
                 </a>
@@ -109,6 +113,8 @@
 
     <!-- Cargar primero la sesión de invitado -->
     <script src="js/guest_session.js"></script>
+    <!-- Sistema de carrito -->
+    <script src="js/cart_frontend.js"></script>
     <!-- Luego los demás scripts -->
     <script src="js/scrypt.js"></script>
     <script src="js/index_products.js"></script>

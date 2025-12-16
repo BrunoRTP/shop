@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Determinar la URL base según donde estemos
+    const isRemote = window.location.hostname.includes('remotehost.es');
+    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '..';
+    
+    console.log('Usando base URL:', baseUrl);
+    
     // Obtener el ID del producto de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
@@ -10,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Cargar datos del producto
-    fetch(`https://remotehost.es/student025/shop/backend/ajax/get_product_detail.php?id=${productId}`)
+    fetch(`${baseUrl}/backend/ajax/get_product_detail.php?id=${productId}`)
         .then(response => {
             if(!response.ok) {
                 throw new Error('Error al cargar el producto');
@@ -86,6 +92,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Función para añadir producto al carrito sin redirección
 function addToCart(productId, button) {
+    console.log('Iniciando addToCart con productId:', productId);
+    
+    // Determinar la URL base según donde estemos
+    const isRemote = window.location.hostname.includes('remotehost.es');
+    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '..';
+    
     // Guardar texto original del botón
     const originalText = button.textContent;
     
@@ -98,42 +110,59 @@ function addToCart(productId, button) {
     formData.append('product_id', productId);
     formData.append('action', 'add');
     
+    console.log('Enviando petición a update_cart.php');
+    
     // Hacer petición para añadir al carrito usando el endpoint AJAX
-    fetch('https://remotehost.es/student025/shop/backend/ajax/update_cart.php', {
+    fetch(`${baseUrl}/backend/ajax/update_cart.php`, {
         method: 'POST',
         body: formData
     })
         .then(response => {
+            console.log('Respuesta recibida:', response.status, response.statusText);
             if(!response.ok) {
-                throw new Error('Error en la respuesta del servidor');
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
             }
-            return response.json();
+            return response.text();
         })
-        .then(data => {
-            if(data.success) {
-                // Mostrar mensaje de éxito
-                button.textContent = '✓ Añadido';
-                button.style.backgroundColor = '#4CAF50';
+        .then(text => {
+            console.log('Texto de respuesta:', text);
+            try {
+                const data = JSON.parse(text);
+                console.log('JSON parseado:', data);
                 
-                // Actualizar contador del carrito con el valor del servidor
-                updateCartCount(data.total_items);
-                
-                // Restaurar botón después de 2 segundos
-                setTimeout(() => {
-                    button.disabled = false;
-                    button.textContent = originalText;
-                    button.style.backgroundColor = '';
-                }, 2000);
-            } else {
-                throw new Error(data.message || 'Error al añadir al carrito');
+                if(data.success) {
+                    // Mostrar mensaje de éxito
+                    button.textContent = '✓ Añadido';
+                    button.style.backgroundColor = '#4CAF50';
+                    
+                    // Actualizar contador del carrito con el valor del servidor
+                    updateCartCount(data.total_items);
+                    
+                    console.log('Producto añadido exitosamente');
+                    
+                    // Restaurar botón después de 2 segundos
+                    setTimeout(() => {
+                        button.disabled = false;
+                        button.textContent = originalText;
+                        button.style.backgroundColor = '';
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Error al añadir al carrito');
+                }
+            } catch(e) {
+                console.error('Error parseando JSON:', e);
+                throw new Error('Respuesta inválida del servidor: ' + text.substring(0, 100));
             }
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error('Error completo:', error);
             
             // Mostrar mensaje de error
             button.textContent = '✗ Error';
             button.style.backgroundColor = '#f44336';
+            
+            // Mostrar el error en consola para depuración
+            alert('Error: ' + error.message);
             
             // Restaurar botón después de 2 segundos
             setTimeout(() => {
@@ -159,24 +188,13 @@ function loadSimilarProducts(products) {
     // Limpiar contenido actual
     container.innerHTML = '';
     
-    // Mapeo de imágenes para productos similares
-    const imageMap = {
-        'Mesa de Comedor Roble': '../assets/img/lamparaModerna.png',
-        'Lámpara minimalista': '../assets/img/lamparaMinimalista.png',
-        'Lámpara de techo': '../assets/img/lamparaTecho.png',
-        'Foco ajustable': '../assets/img/lamparaReajustable.png'
-    };
-    
     // Agregar productos similares
     products.forEach((product, index) => {
         const productDiv = document.createElement('div');
         productDiv.className = 'bg-white rounded-lg shadow p-4 border border-gray-200';
         
-        // Determinar imagen del producto
-        let productImage = '../assets/img/ph.jpg';
-        if(imageMap[product.name]) {
-            productImage = imageMap[product.name];
-        }
+        // Usar imagen de la base de datos o placeholder
+        const productImage = product.image_data ? product.image_data : '../assets/img/ph.jpg';
         
         productDiv.innerHTML = `
             <a href="producto.html?id=${product.id}">

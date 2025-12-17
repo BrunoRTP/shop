@@ -2,82 +2,91 @@
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+  src: url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 }
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+  src: url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..800&display=swap');
 }
 
 @theme {
-    --color-texto: #4d2f23;
-    --color-fondo: #FAF7F4;
-    --color-principal: #A67C52;
-    --color-secundario: #8B6F47;
-    --color-accent: #D4825B;
-    --font-montserrat: 'Montserrat', sans-serif;
-    --font-open-sans: 'Open Sans', sans-serif;
+  --color-texto: #4d2f23;
+  --color-fondo: #FAF7F4;
+  --color-principal: #A67C52;
+  --color-secundario: #8B6F47;
+  --color-accent: #D4825B;
+  
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
 }
 
 @layer components {
-  body{
+  body {
     @apply font-montserrat bg-fondo text-texto;
   }
+
   .menu-overlay.active {
     @apply visible opacity-100;
   }
-  .menu-titulo{
-    @apply font-titulos text-texto
+
+  .menu-titulo {
+    @apply font-montserrat text-texto;
   }
+
   .enlace-menu {
     @apply block text-texto no-underline font-medium px-6 py-4;
   }
-  .item-menu{
+
+  .item-menu {
     @apply border-b border-gray-200;
   }
-  .header{
+
+  .header {
     @apply bg-fondo;
   }
-  .icono{
+
+  .icono {
     @apply w-6 h-6 block;
   }
-  .boton-icono{
-    @apply bg-none border-none p-2 cursor-pointer relative;
+
+  .boton-icono {
+    @apply bg-transparent border-none p-2 cursor-pointer relative;
   }
+
   .logo-texto {
-    font: (--font-titulos);
-    color: (var(--color-texto));
+    @apply font-montserrat text-texto;
   }
+
   .items-carrito {
-    background-color: var(--color-accent);
+    @apply bg-accent;
   }
-  .entrada-input{
-    border: 2px solid var(--color-principal);
-    font-family: var(--font-body);
-    color: var(--color-texto);
-    border-color: var(--color-secundario);
+
+  .entrada-input {
+    @apply border-2 border-principal font-open-sans text-texto bg-secundario;
   }
-  .enlace-pie-pagina{
-    color: var(--color-texto);
-    @apply flex flex-col items-center no-underline text-xs gap-1
+
+  .enlace-pie-pagina {
+    @apply flex flex-col items-center no-underline text-xs gap-1 text-texto;
   }
-   .enlace-pie-pagina.activo{
-    color: var(--color-accent);
+
+  .enlace-pie-pagina.activo {
+    @apply text-accent;
   }
-  .imgSecundaria{
-    @apply w-40 h-40 ml-3.5
+
+  .imgSecundaria {
+    @apply w-40 h-40 ml-3.5;
   }
-  .nombreProducto{
-    color: var(--color-texto);
+
+  .nombreProducto, .descripcion {
+    @apply text-texto;
   }
-  .descripcion{
-    color: var(--color-texto);
+
+  .comprar {
+    @apply bg-principal transition-colors;
   }
-  .comprar{
-    background-color: var(--color-principal);
-  }
-  .comprar:hover{
-    background-color: var(--color-accent);
+
+  .comprar:hover {
+    @apply bg-accent;
   }
 }

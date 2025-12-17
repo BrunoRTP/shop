@@ -1,0 +1,238 @@
+.icono {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: "Open Sans", sans-serif;
+  background-color: #faf7f4;
+  color: #2c1810;
+  display: flex;
+  flex-direction: column;
+}
+
+body .menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 800px;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 150;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+body .menu-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s;
+}
+
+body .menu-lateral {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  transition: left 0.3s ease;
+  width: 280px;
+  height: 800px;
+  background-color: white;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 200;
+  overflow-y: auto;
+}
+
+body .menu-lateral.active {
+  left: 0;
+}
+
+body .menu-lateral .menu-cabecera {
+  padding: 24px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+body .menu-lateral .menu-cabecera .menu-titulo {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c1810;
+}
+
+body .menu-lateral .menu-cabecera .cerrar-menu {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+body .menu-lateral .menu-cabecera .cerrar-menu .icono {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+body .menu-lateral .lista-menu {
+  padding: 16px 0;
+}
+
+body .menu-lateral .lista-menu .item-menu {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+body .menu-lateral .lista-menu .item-menu .enlace-menu {
+  display: block;
+  padding: 16px 24px;
+  color: #2c1810;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+body .menu-lateral .lista-menu .item-menu .enlace-menu:hover {
+  background-color: #f9f9f9;
+}
+
+body .header {
+  background-color: #faf7f4;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+body .header .header-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+body .header .header-superior .boton-menu {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body .header .header-superior .icono-logo {
+  width: 80px;
+  height: 80px;
+}
+
+body .header .header-superior .logo {
+  flex: 1;
+  text-align: center;
+}
+
+body .header .header-superior .logo .logo-texto {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c1810;
+  text-decoration: none;
+}
+
+body .header .header-superior .boton-icono {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+body .header .header-superior .boton-icono .icono {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+body .header .header-superior .boton-icono .items-carrito {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #d4825b;
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 16px;
+  text-align: center;
+}
+
+body .header .barra-busqueda {
+  margin-top: 12px;
+  position: relative;
+}
+
+body .header .barra-busqueda .entrada-input {
+  width: 100%;
+  padding: 12px 16px;
+  padding-left: 40px;
+  border: 2px solid #a67c52;
+  border-radius: 25px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14.4px;
+  background-color: white;
+  color: #2c1810;
+  border-color: #8b6f47;
+}
+
+body .header .barra-busqueda .entrada-input::placeholder {
+  color: #999;
+}
+
+body .header .barra-busqueda .icono-busqueda {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+}
+
+body .pie-pagina {
+  background-color: white;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+}
+
+body .pie-pagina .nav-pie-pagina {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+}
+
+body .pie-pagina .nav-pie-pagina .enlace-pie-pagina {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #2c1810;
+  font-size: 12px;
+  gap: 4px;
+}
+
+body .pie-pagina .nav-pie-pagina .enlace-pie-pagina .icono {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+body .pie-pagina .nav-pie-pagina .enlace-pie-pagina.activo {
+  color: #d4825b;
+}

@@ -2,32 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const baseUrl = isLocal ? '..' : 'https://remotehost.es/student025/shop';
     
-    // PRIMERO: Crear/verificar sesión, LUEGO: cargar carrito
-    initializeSessionThenLoadCart();
-    
-    async function initializeSessionThenLoadCart() {
-        try {
-            // Crear sesión de invitado si no existe
-            const sessionResponse = await fetch(`${baseUrl}/backend/ajax/create_guest_session.php`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            
-            const sessionData = await sessionResponse.json();
-            
-            if(sessionData.success) {
-                // Ahora que tenemos sesión, cargar el carrito
-                loadCartPage();
-            } else {
-                showEmptyCart('Error al iniciar sesión');
-            }
-        } catch(error) {
-            console.error('Error:', error);
-            showEmptyCart('Error de conexión');
-        }
-    }
+    // Simplemente cargar el carrito del usuario invitado
+    loadCartPage();
     
     function loadCartPage() {
         fetch(`${baseUrl}/backend/ajax/get_cart.php`)

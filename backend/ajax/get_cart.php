@@ -12,22 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir . 'db_connection.php');
 
-// Si no hay sesión, crear una con el usuario invitado
+// Si no hay sesión, usar el usuario invitado por defecto
 if(!isset($_SESSION['user_id'])){
     $sql = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
     $result = mysqli_query($conn, $sql);
     
     if($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['type_client'] = $user['type_client'];
-        $_SESSION['is_guest'] = true;
+        $customer_id = $user['id'];
     } else {
-        // Si aún no hay usuario invitado, devolverlo vacío
         echo json_encode([
-            'success' => false,
-            'message' => 'No hay sesión activa',
+            'success' => true,
             'items' => [],
             'total' => '0.00',
             'total_items' => 0
@@ -35,9 +30,9 @@ if(!isset($_SESSION['user_id'])){
         mysqli_close($conn);
         exit;
     }
+} else {
+    $customer_id = $_SESSION['user_id'];
 }
-
-$customer_id = $_SESSION['user_id'];
 
 // Obtener productos del carrito
 $sql = "SELECT c.product_id, c.quantity, 
@@ -54,7 +49,6 @@ $total = 0;
 $total_items = 0;
 
 while($row = mysqli_fetch_assoc($result)) {
-    // Convertir imagen a base64 si existe
     $image_data = null;
     if(!empty($row['image'])) {
         $image_data = 'data:image/jpeg;base64,' . base64_encode($row['image']);

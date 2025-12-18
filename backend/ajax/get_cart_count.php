@@ -12,29 +12,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir . 'db_connection.php');
 
-// Si no hay sesión, intentar crear una con el usuario invitado
+// Si no hay sesión, usar el usuario invitado por defecto
 if(!isset($_SESSION['user_id'])){
     $sql = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
     $result = mysqli_query($conn, $sql);
     
     if($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['type_client'] = $user['type_client'];
-        $_SESSION['is_guest'] = true;
+        $customer_id = $user['id'];
     } else {
         echo json_encode([
-            'success' => false,
-            'count' => 0,
-            'message' => 'No hay sesión activa'
+            'success' => true,
+            'count' => 0
         ]);
         mysqli_close($conn);
         exit;
     }
+} else {
+    $customer_id = $_SESSION['user_id'];
 }
-
-$customer_id = $_SESSION['user_id'];
 
 // Obtener cantidad total de productos en el carrito
 $sql = "SELECT SUM(quantity) as total FROM 025_cart WHERE customer_id = $customer_id";

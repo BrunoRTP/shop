@@ -7,13 +7,15 @@ class CartFrontend {
     }
     
     getBaseUrl() {
-        const isRemote = window.location.hostname.includes('remotehost.es');
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const isInViews = window.location.pathname.includes('/views/');
         
-        if (isRemote) {
-            return 'https://remotehost.es/student025/shop';
-        } else {
+        if (isLocal) {
+            // Si estamos en local, usar rutas relativas
             return isInViews ? '..' : '.';
+        } else {
+            // Por defecto (GitHub Pages, remotehost, etc.) usar servidor remoto
+            return 'https://remotehost.es/student025/shop';
         }
     }
     

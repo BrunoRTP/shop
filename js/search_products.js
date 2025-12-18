@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Determinar la URL base según donde estemos
-    const isRemote = window.location.hostname.includes('remotehost.es');
-    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '';
+    // Determinar la URL base: localhost usa rutas relativas, todo lo demás usa remotehost
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '' : 'https://remotehost.es/student025/shop';
     
     const searchInput = document.getElementById('search-input');
     const searchCount = document.getElementById('search-count');

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const isRemote = window.location.hostname.includes('remotehost.es');
-    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '..';
+    // Determinar la URL base: localhost usa rutas relativas, todo lo demás usa remotehost
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '..' : 'https://remotehost.es/student025/shop';
     
     console.log('Usando base URL:', baseUrl);
     
@@ -83,8 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function addToCart(productId, button) {
     console.log('Iniciando addToCart con productId:', productId);
     
-    const isRemote = window.location.hostname.includes('remotehost.es');
-    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '..';
+    // Determinar la URL base: localhost usa rutas relativas, todo lo demás usa remotehost
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const baseUrl = isLocal ? '..' : 'https://remotehost.es/student025/shop';
     
     const originalText = button.textContent;
     

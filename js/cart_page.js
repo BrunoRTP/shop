@@ -6,9 +6,18 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCartPage();
     
     function loadCartPage() {
+        console.log('Cargando carrito desde:', `${baseUrl}/backend/ajax/get_cart.php`);
+        
         fetch(`${baseUrl}/backend/ajax/get_cart.php`)
-            .then(response => response.json())
-            .then(data => {
+            .then(response => {
+                console.log('Respuesta recibida:', response.status);
+                return response.text();
+            })
+            .then(text => {
+                console.log('Respuesta texto:', text.substring(0, 200));
+                const data = JSON.parse(text);
+                console.log('Datos parseados:', data);
+                
                 if(data.success) {
                     if(data.items.length === 0) {
                         showEmptyCart('Tu carrito está vacío');
@@ -21,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                showEmptyCart('Error al cargar el carrito');
+                console.error('Error completo:', error);
+                showEmptyCart('Error al cargar el carrito: ' + error.message);
             });
     }
     

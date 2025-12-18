@@ -12,9 +12,10 @@
   </head>
 
   <body>
-    <!-- Esto es el menu del lado donde estaran los filtros para todos los tipos de productos -->
+    <!-- Menu overlay -->
     <div class="menu-overlay" id="menuOverlay"></div>
-    <!-- Parte de fuera del menu, para hacer mas oscuro el resto y al darle click se cierre-->
+    
+    <!-- Menu lateral -->
     <nav class="menu-lateral" id="menuLateral">
       <div class="menu-cabecera">
         <h2 class="menu-titulo">Menú</h2>
@@ -27,104 +28,194 @@
         <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
-        <li class="item-menu">
-          <a href="#" class="enlace-menu">Dormitorio</a>
-        </li>
-        <li class="item-menu">
-          <a href="#" class="enlace-menu">Almacenamiento</a>
-        </li>
-        <li class="item-menu">
-          <a href="#" class="enlace-menu">Decoración</a>
-        </li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Dormitorio</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Almacenamiento</a></li>
+        <li class="item-menu"><a href="#" class="enlace-menu">Decoración</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
-        <li
-          class="item-menu"
-          style="
-            border-top: 2px solid #ddd;
-            margin-top: 10px;
-            padding-top: 10px;
-          "
-        >
+        <li class="item-menu" style="border-top: 2px solid #ddd; margin-top: 10px; padding-top: 10px;">
           <div style="padding: 10px 24px; color: #666">
             <small>Usuario: <span id="menu-username">invitado</span></small>
           </div>
         </li>
         <li class="item-menu">
-          <a
-            href="backend/forms/form_login.php"
-            class="enlace-menu"
-            id="menu-login-link"
-            >Iniciar Sesión</a
-          >
+          <a href="backend/forms/form_login.php" class="enlace-menu" id="menu-login-link">Iniciar Sesión</a>
         </li>
       </ul>
     </nav>
-    <!-- Header que contendra el menu, logo, usuario, carrito y el buscador -->
+    
+    <!-- Header -->
     <header class="header">
       <div class="header-superior">
         <button class="boton-menu" id="botonMenu">
           <img src="../assets/iconos/menu.png" alt="Menú" class="icono" />
         </button>
-        <img
-          src="../assets/logo/iconoClaro.png"
-          alt="Home Goods Haven"
-          class="icono-logo"
-        />
+        <img src="../assets/logo/iconoClaro.png" alt="Home Goods Haven" class="icono-logo" />
 
         <div class="logo">
-          <a href="#" class="logo-texto">Home Goods Heaven</a>
+          <a href="../index.html" class="logo-texto">Home Goods Heaven</a>
         </div>
 
         <button class="boton-icono">
-          <a href="../backend/form_login.php"
-            ><img src="../assets/iconos/user.png" alt="Usuario" class="icono"
-          /></a>
+          <a href="../backend/form_login.php">
+            <img src="../assets/iconos/user.png" alt="Usuario" class="icono" />
+          </a>
         </button>
         <button class="boton-icono">
           <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
-          <span class="items-carrito">0</span>
+          <span class="items-carrito">4</span>
         </button>
       </div>
       <div class="barra-busqueda">
-        <img
-          src="../assets/iconos/buscar.png"
-          alt="Buscar"
-          class="icono-busqueda"
-        />
-        <input
-          type="search"
-          class="entrada-input"
-          placeholder="Buscar muebles..."
-        />
+        <img src="../assets/iconos/buscar.png" alt="Buscar" class="icono-busqueda" />
+        <input type="search" class="entrada-input" placeholder="Buscar muebles..." />
       </div>
     </header>
 
-    <main class="contenido-principal"></main>
-    <!-- Footer con las 4 opciones para movil y tablet -->
+    <!-- Main content -->
+    <main class="contenido-principal">
+      
+      <!-- Contenedor principal con productos y resumen -->
+      <div class="carrito-container">
+        
+        <!-- Columna de productos -->
+        <div class="productos-carrito">
+          
+          <!-- Producto 1 -->
+          <div class="producto-item">
+            <div class="producto-imagen">
+              <img src="../assets/img/ph.jpg" alt="Producto" />
+            </div>
+            <div class="producto-info">
+              <h3>Nombre del producto</h3>
+              <p class="producto-descripcion">Descripción</p>
+              <p class="producto-cantidad">Cantidad</p>
+            </div>
+            <div class="producto-controles">
+              <button class="btn-control">+</button>
+              <button class="btn-control">−</button>
+            </div>
+          </div>
+
+          <!-- Producto 2 -->
+          <div class="producto-item">
+            <div class="producto-imagen">
+              <img src="../assets/img/ph.jpg" alt="Producto" />
+            </div>
+            <div class="producto-info">
+              <h3>Nombre del producto</h3>
+              <p class="producto-descripcion">Descripción</p>
+              <p class="producto-cantidad">Cantidad</p>
+            </div>
+            <div class="producto-controles">
+              <button class="btn-control">+</button>
+              <button class="btn-control">−</button>
+            </div>
+          </div>
+
+          <!-- Producto 3 -->
+          <div class="producto-item">
+            <div class="producto-imagen">
+              <img src="../assets/img/ph.jpg" alt="Producto" />
+            </div>
+            <div class="producto-info">
+              <h3>Nombre del producto</h3>
+              <p class="producto-descripcion">Descripción</p>
+              <p class="producto-cantidad">Cantidad</p>
+            </div>
+            <div class="producto-controles">
+              <button class="btn-control">+</button>
+              <button class="btn-control">−</button>
+            </div>
+          </div>
+
+          <!-- Producto 4 -->
+          <div class="producto-item">
+            <div class="producto-imagen">
+              <img src="../assets/img/ph.jpg" alt="Producto" />
+            </div>
+            <div class="producto-info">
+              <h3>Nombre del producto</h3>
+              <p class="producto-descripcion">Descripción</p>
+              <p class="producto-cantidad">Cantidad</p>
+            </div>
+            <div class="producto-controles">
+              <button class="btn-control">+</button>
+              <button class="btn-control">−</button>
+            </div>
+          </div>
+
+          <!-- Producto 5 -->
+          <div class="producto-item">
+            <div class="producto-imagen">
+              <img src="../assets/img/ph.jpg" alt="Producto" />
+            </div>
+            <div class="producto-info">
+              <h3>Nombre del producto</h3>
+              <p class="producto-descripcion">Descripción</p>
+              <p class="producto-cantidad">Cantidad</p>
+            </div>
+            <div class="producto-controles">
+              <button class="btn-control">+</button>
+              <button class="btn-control">−</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Columna de resumen y recomendaciones -->
+        <div class="columna-lateral">
+          
+          <!-- Confirmación + información -->
+          <div class="confirmacion-box">
+            <h3>Confirmación + información</h3>
+          </div>
+
+          <!-- Recomendaciones -->
+          <div class="recomendaciones-box">
+            <h3>Recomendaciones</h3>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Botones inferiores (móvil) -->
+      <div class="botones-inferiores">
+        <button class="btn-confirmacion">Confirmación de compra</button>
+        <button class="btn-recomendaciones">Recomendaciones</button>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
     <footer class="pie-pagina">
       <nav class="nav-pie-pagina">
-        <a href="#" class="enlace-pie-pagina activo">
+        <a href="../index.html" class="enlace-pie-pagina">
           <img src="../assets/iconos/inicio.png" alt="Inicio" class="icono" />
           <span>Inicio</span>
         </a>
         <a href="#" class="enlace-pie-pagina">
-          <img
-            src="../assets/iconos/corazon.png"
-            alt="Favoritos"
-            class="icono"
-          />
+          <img src="../assets/iconos/corazon.png" alt="Favoritos" class="icono" />
           <span>Favoritos</span>
         </a>
         <a href="#" class="enlace-pie-pagina">
           <img src="../assets/iconos/user.png" alt="Perfil" class="icono" />
           <span>Perfil</span>
         </a>
-        <a href="#" class="enlace-pie-pagina">
+        <a href="#" class="enlace-pie-pagina activo">
           <img src="../assets/iconos/carrito.png" alt="Carrito" class="icono" />
           <span>Carrito</span>
         </a>
       </nav>
     </footer>
+    
+    <!-- Cargar primero la sesión de invitado -->
+    <script src="../js/guest_session.js"></script>
+    <!-- Sistema de carrito -->
+    <script src="../js/cart_frontend.js"></script>
+    <!-- Script del menú -->
     <script src="../js/scrypt.js"></script>
+    <!-- Script de la página del carrito -->
+    <script src="../js/cart_page.js"></script>
   </body>
 </html>

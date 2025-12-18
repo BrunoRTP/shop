@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            // SOLUCIÓN: Configurar botón de compra para añadir sin redirección
+            // Configurar botón de compra para añadir sin redirección
             const buyButton = document.querySelector('.comprar');
             if(buyButton) {
                 // Deshabilitar si no hay stock
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     buyButton.style.cursor = 'not-allowed';
                 } else {
                     buyButton.onclick = function(e) {
-                        e.preventDefault(); // Prevenir comportamiento por defecto
+                        e.preventDefault();
                         addToCart(product.id, buyButton);
                     };
                 }
@@ -160,9 +160,6 @@ function addToCart(productId, button) {
             // Mostrar mensaje de error
             button.textContent = '✗ Error';
             button.style.backgroundColor = '#f44336';
-            
-            // Mostrar el error en consola para depuración
-            alert('Error: ' + error.message);
             
             // Restaurar botón después de 2 segundos
             setTimeout(() => {

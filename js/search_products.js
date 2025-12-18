@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Determinar la URL base según donde estemos
+    const isRemote = window.location.hostname.includes('remotehost.es');
+    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '';
+    
     const searchInput = document.getElementById('search-input');
     const searchCount = document.getElementById('search-count');
     const productsContainer = document.getElementById('products-container');
@@ -17,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        fetch('/student025/shop/backend/ajax/search_products.php?q=' + encodeURIComponent(nombre))
+        fetch(`${baseUrl}/backend/ajax/search_products.php?q=` + encodeURIComponent(nombre))
             .then(response => response.json())
             .then(products => {
                 if(products.length === 0) {
@@ -33,19 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     html += `
                         <div class="producto-wrapper">
                             <div class="producto-item">
-                                <img src="/student025/shop/assets/img/ph.jpg" class="mueble-placeholder">
+                                <img src="${baseUrl}/assets/img/ph.jpg" class="mueble-placeholder">
                                 <div class="info-container">
                                     <div class="producto-info">
                                         ID: ${product.id}, Nombre: ${product.name}, Descripcion: ${product.description}
                                     </div>
                                     ${isAdmin ? `
                                         <div class="producto-acciones">
-                                            <button><a href="/student025/shop/backend/forms/form_products_update_call.php?id=${product.id}" class="social-icon">Update</a></button>
-                                            <button><a href="/student025/shop/backend/forms/form_products_delete_call.php?id=${product.id}" class="social-icon">Delete</a></button>
+                                            <button><a href="${baseUrl}/backend/forms/form_products_update_call.php?id=${product.id}" class="social-icon">Update</a></button>
+                                            <button><a href="${baseUrl}/backend/forms/form_products_delete_call.php?id=${product.id}" class="social-icon">Delete</a></button>
                                         </div>
                                     ` : ''}
-                                    <button onclick="location.href='/student025/shop/backend/db/db_cart_insert.php?id=${product.id}'" type="button">
-                                        <a href="/student025/shop/backend/db/db_cart_insert.php?id=${product.id}" class="social-icon">Add to cart</a>
+                                    <button onclick="location.href='${baseUrl}/backend/db/db_cart_insert.php?id=${product.id}'" type="button">
+                                        <a href="${baseUrl}/backend/db/db_cart_insert.php?id=${product.id}" class="social-icon">Add to cart</a>
                                     </button>
                                 </div>
                             </div>

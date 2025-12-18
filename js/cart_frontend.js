@@ -8,7 +8,6 @@ class CartFrontend {
     
     getBaseUrl() {
         const isRemote = window.location.hostname.includes('remotehost.es');
-        // Detectar si estamos en la carpeta views o en la raíz
         const isInViews = window.location.pathname.includes('/views/');
         
         if (isRemote) {
@@ -19,8 +18,6 @@ class CartFrontend {
     }
     
     init() {
-        // Cargar cantidad actual del carrito al iniciar
-        // Esperar un momento para asegurar que la sesión esté lista
         setTimeout(() => {
             this.updateCartCount();
         }, 100);
@@ -42,13 +39,8 @@ class CartFrontend {
             
             if (data.success) {
                 console.log('Producto añadido al carrito');
-                
-                // Actualizar contador
                 this.updateCartCount();
-                
-                // Mostrar notificación
                 this.showNotification('Producto añadido al carrito', 'success');
-                
                 return true;
             } else {
                 console.warn('Error:', data.message);
@@ -67,11 +59,9 @@ class CartFrontend {
             console.log('Cargando contador del carrito desde:', `${this.baseUrl}/backend/ajax/get_cart_count.php`);
             
             const response = await fetch(`${this.baseUrl}/backend/ajax/get_cart_count.php`);
-            
             console.log('Respuesta recibida:', response.status);
             
             const data = await response.json();
-            
             console.log('Datos del contador:', data);
             
             if (data.success) {
@@ -79,7 +69,6 @@ class CartFrontend {
                 this.updateCartUI();
                 console.log('Contador actualizado a:', this.cartCount);
             } else {
-                // Si no hay sesión o error, mostrar 0
                 console.warn('No hay sesión activa o error:', data.message);
                 this.cartCount = 0;
                 this.updateCartUI();
@@ -92,7 +81,6 @@ class CartFrontend {
     }
     
     updateCartUI() {
-        // Actualizar todos los contadores de carrito en la página
         const cartCountElements = document.querySelectorAll('#cart-count, .items-carrito');
         cartCountElements.forEach(element => {
             element.textContent = this.cartCount;
@@ -100,80 +88,34 @@ class CartFrontend {
     }
     
     showNotification(message, type = 'success') {
-        // Crear notificación
         const notification = document.createElement('div');
-        notification.className = 'cart-notification';
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 300px;
-        `;
+        notification.className = `cart-notification cart-notification-${type}`;
         
         if (type === 'success') {
-            notification.style.background = '#4CAF50';
-            notification.style.color = 'white';
             notification.innerHTML = `
-                <span style="font-size: 24px;">✓</span>
-                <div>
+                <span class="notification-icon">✓</span>
+                <div class="notification-content">
                     <strong>${message}</strong><br>
-                    <small><a href="${this.baseUrl}/backend/cart.php" style="color: white; text-decoration: underline;">Ver carrito</a></small>
+                    <small><a href="${this.baseUrl}/backend/cart.php" class="notification-link">Ver carrito</a></small>
                 </div>
             `;
         } else {
-            notification.style.background = '#f44336';
-            notification.style.color = 'white';
             notification.innerHTML = `
-                <span style="font-size: 24px;">✕</span>
+                <span class="notification-icon">✕</span>
                 <strong>${message}</strong>
             `;
         }
         
         document.body.appendChild(notification);
         
-        // Eliminar después de 4 segundos
         setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease';
+            notification.classList.add('notification-fade-out');
             setTimeout(() => {
                 notification.remove();
             }, 300);
         }, 4000);
     }
 }
-
-// Añadir estilos de animación
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
 
 // Inicializar automáticamente
 const cartFrontend = new CartFrontend();

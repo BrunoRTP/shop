@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Determinar la URL base según donde estemos
+    const isRemote = window.location.hostname.includes('remotehost.es');
+    const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '';
     
     function updateCart(productId, action) {
         const row = document.querySelector(`tr[data-product-id="${productId}"]`);
@@ -8,13 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const subtotalCell = row.querySelector('.subtotal-cell');
         const buttons = row.querySelectorAll('button');
         
-
-        
         const formData = new FormData();
         formData.append('product_id', productId);
         formData.append('action', action);
         
-        fetch('/student025/shop/backend/ajax/update_cart.php', {
+        fetch(`${baseUrl}/backend/ajax/update_cart.php`, {
             method: 'POST',
             body: formData
         })

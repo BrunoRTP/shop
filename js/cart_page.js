@@ -1,6 +1,5 @@
 // js/cart_page.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Determinar la URL base según donde estemos
     const isRemote = window.location.hostname.includes('remotehost.es');
     const baseUrl = isRemote ? 'https://remotehost.es/student025/shop' : '..';
     
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadCartPage();
     
-    // Función para cargar la página del carrito
     function loadCartPage() {
         console.log('Intentando cargar carrito desde:', `${baseUrl}/backend/ajax/get_cart.php`);
         
@@ -45,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Función para mostrar los productos del carrito
     function displayCartItems(items, total, totalItems) {
         const container = document.querySelector('.productos-carrito');
         
@@ -54,22 +51,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Si no hay items, mostrar mensaje
         if(items.length === 0) {
             showEmptyCart('Tu carrito está vacío');
             return;
         }
         
-        // Limpiar contenedor
         container.innerHTML = '';
         
-        // Agregar cada producto
         items.forEach(item => {
             const productDiv = document.createElement('div');
             productDiv.className = 'producto-item';
             productDiv.setAttribute('data-product-id', item.product_id);
             
-            // Imagen (placeholder si no hay)
             const imageSrc = item.image_data || '../assets/img/ph.jpg';
             
             productDiv.innerHTML = `
@@ -92,14 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
             container.appendChild(productDiv);
         });
         
-        // Actualizar total en el resumen
         updateSummary(total, totalItems);
-        
-        // Agregar event listeners a los botones usando la funcionalidad existente
         addButtonListeners();
     }
     
-    // Función para actualizar el resumen de compra
     function updateSummary(total, totalItems) {
         const confirmacionBox = document.querySelector('.confirmacion-box');
         
@@ -110,20 +99,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Productos: ${totalItems}</p>
                     <p class="total-precio">Total: €${total}</p>
                 </div>
-                <button class="btn-checkout">Proceder al pago</button>
+                <button class="btn-checkout btn-checkout-disabled" disabled>Proceder al pago</button>
             `;
-            
-            // Agregar listener al botón de checkout
-            const checkoutBtn = confirmacionBox.querySelector('.btn-checkout');
-            if(checkoutBtn) {
-                checkoutBtn.addEventListener('click', function() {
-                    window.location.href = `${baseUrl}/backend/db/db_cart_checkout.php`;
-                });
-            }
         }
     }
     
-    // Función para mostrar carrito vacío
     function showEmptyCart(message) {
         const container = document.querySelector('.productos-carrito');
         if(container) {
@@ -135,23 +115,18 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         }
         
-        // Limpiar resumen
         const confirmacionBox = document.querySelector('.confirmacion-box');
         if(confirmacionBox) {
             confirmacionBox.innerHTML = '<h3>Tu carrito está vacío</h3>';
         }
         
-        // Actualizar contador del header a 0
         const cartCount = document.querySelector('.items-carrito');
         if(cartCount) {
             cartCount.textContent = '0';
         }
     }
     
-    // Función para agregar listeners a los botones
-    // Usa el endpoint que ya existe en update_cart.php
     function addButtonListeners() {
-        // Botones de añadir
         document.querySelectorAll('.btn-add').forEach(button => {
             button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-product-id');
@@ -159,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Botones de eliminar
         document.querySelectorAll('.btn-remove').forEach(button => {
             button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-product-id');
@@ -168,8 +142,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función para actualizar cantidad en el carrito
-    // Reutiliza el endpoint existente
     function updateCartQuantity(productId, action) {
         const formData = new FormData();
         formData.append('product_id', productId);
@@ -182,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    // Recargar toda la página del carrito para reflejar cambios
                     loadCartPage();
                 } else {
                     console.error('Error al actualizar:', data.message);
@@ -193,12 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Función para cargar recomendaciones
     function loadRecommendations() {
         fetch(`${baseUrl}/backend/ajax/get_products.php`)
             .then(response => response.json())
             .then(products => {
-                // Mostrar solo los primeros 4 productos como recomendaciones
                 displayRecommendations(products.slice(0, 4));
             })
             .catch(error => {
@@ -206,7 +175,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
     
-    // Función para mostrar recomendaciones
     function displayRecommendations(products) {
         const recomendacionesBox = document.querySelector('.recomendaciones-box');
         

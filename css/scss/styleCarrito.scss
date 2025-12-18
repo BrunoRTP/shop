@@ -545,6 +545,18 @@ body {
       @media (min-width: $tablet) {
         font-size: 18px;
       }
+
+      // Estilo para cuando está deshabilitado
+      &.btn-checkout-disabled,
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #ccc;
+
+        &:hover {
+          background-color: #ccc;
+        }
+      }
     }
   }
 

@@ -89,4 +89,16 @@
   .comprar:hover {
     @apply bg-accent;
   }
+
+  .btn-sin-stock {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .btn-success {
+    @apply bg-green-500;
+  }
+
+  .btn-error {
+    @apply bg-red-500;
+  }
 }

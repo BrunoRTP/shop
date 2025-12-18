@@ -567,6 +567,16 @@ body {
   }
 }
 
+.columna-lateral .confirmacion-box .btn-checkout.btn-checkout-disabled, .columna-lateral .confirmacion-box .btn-checkout:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+
+.columna-lateral .confirmacion-box .btn-checkout.btn-checkout-disabled:hover, .columna-lateral .confirmacion-box .btn-checkout:disabled:hover {
+  background-color: #ccc;
+}
+
 .columna-lateral .recomendaciones-box .recomendaciones-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

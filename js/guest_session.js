@@ -1,7 +1,19 @@
 // Sistema de sesión de invitado para el frontend
 class GuestSession {
     constructor() {
+        this.baseUrl = this.getBaseUrl();
         this.init();
+    }
+    
+    getBaseUrl() {
+        const isRemote = window.location.hostname.includes('remotehost.es');
+        const isInViews = window.location.pathname.includes('/views/');
+        
+        if (isRemote) {
+            return 'https://remotehost.es/student025/shop';
+        } else {
+            return isInViews ? '..' : '.';
+        }
     }
     
     init() {
@@ -37,7 +49,7 @@ class GuestSession {
     
     async createBackendSession() {
         try {
-            const response = await fetch('backend/ajax/create_guest_session.php', {
+            const response = await fetch(`${this.baseUrl}/backend/ajax/create_guest_session.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -70,7 +82,7 @@ class GuestSession {
     logout() {
         sessionStorage.removeItem('guest_session');
         // Redirigir al backend para cerrar sesión PHP también
-        window.location.href = 'backend/logout.php';
+        window.location.href = `${this.baseUrl}/backend/logout.php`;
     }
 }
 

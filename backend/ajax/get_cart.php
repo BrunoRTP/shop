@@ -12,17 +12,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir . 'db_connection.php');
 
-// Si no hay sesión
+// Si no hay sesión, crear una con el usuario invitado
 if(!isset($_SESSION['user_id'])){
-    echo json_encode([
-        'success' => false,
-        'message' => 'No hay sesión activa',
-        'items' => [],
-        'total' => '0.00',
-        'total_items' => 0
-    ]);
-    mysqli_close($conn);
-    exit;
+    $sql = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+    
+    if($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['type_client'] = $user['type_client'];
+        $_SESSION['is_guest'] = true;
+    } else {
+        // Si aún no hay usuario invitado, devolverlo vacío
+        echo json_encode([
+            'success' => false,
+            'message' => 'No hay sesión activa',
+            'items' => [],
+            'total' => '0.00',
+            'total_items' => 0
+        ]);
+        mysqli_close($conn);
+        exit;
+    }
 }
 
 $customer_id = $_SESSION['user_id'];

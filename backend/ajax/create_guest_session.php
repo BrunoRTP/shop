@@ -1,9 +1,9 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
@@ -49,6 +49,11 @@ if($result && mysqli_num_rows($result) > 0) {
             'type_client' => $user['type_client'],
             'is_guest' => true
         ]
+    ]);
+} else {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Usuario invitado no encontrado'
     ]);
 }
 

@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Crear sesión de invitado si no existe
             const sessionResponse = await fetch(`${baseUrl}/backend/ajax/create_guest_session.php`, {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -31,9 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function loadCartPage() {
-        fetch(`${baseUrl}/backend/ajax/get_cart.php`, {
-            credentials: 'include'
-        })
+        fetch(`${baseUrl}/backend/ajax/get_cart.php`)
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
@@ -153,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(`${baseUrl}/backend/ajax/update_cart.php`, {
             method: 'POST',
-            credentials: 'include',
             body: formData
         })
             .then(response => response.json())

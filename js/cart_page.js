@@ -1,46 +1,55 @@
-// js/cart_page.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Determinar la URL base: localhost usa rutas relativas, todo lo demás usa remotehost
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const baseUrl = isLocal ? '..' : 'https://remotehost.es/student025/shop';
     
-    console.log('Cargando carrito desde:', baseUrl);
+    // PRIMERO: Crear/verificar sesión, LUEGO: cargar carrito
+    initializeSessionThenLoadCart();
     
-    loadCartPage();
+    async function initializeSessionThenLoadCart() {
+        try {
+            // Crear sesión de invitado si no existe
+            const sessionResponse = await fetch(`${baseUrl}/backend/ajax/create_guest_session.php`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            
+            const sessionData = await sessionResponse.json();
+            
+            if(sessionData.success) {
+                // Ahora que tenemos sesión, cargar el carrito
+                loadCartPage();
+            } else {
+                showEmptyCart('Error al iniciar sesión');
+            }
+        } catch(error) {
+            console.error('Error:', error);
+            showEmptyCart('Error de conexión');
+        }
+    }
     
     function loadCartPage() {
-        console.log('Intentando cargar carrito desde:', `${baseUrl}/backend/ajax/get_cart.php`);
-        
-        fetch(`${baseUrl}/backend/ajax/get_cart.php`)
-            .then(response => {
-                console.log('Respuesta recibida:', response.status, response.statusText);
-                if(!response.ok) {
-                    throw new Error('Error al cargar el carrito: ' + response.status);
-                }
-                return response.text();
-            })
-            .then(text => {
-                console.log('Texto de respuesta:', text);
-                try {
-                    const data = JSON.parse(text);
-                    console.log('Datos del carrito parseados:', data);
-                    
-                    if(data.success) {
+        fetch(`${baseUrl}/backend/ajax/get_cart.php`, {
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    if(data.items.length === 0) {
+                        showEmptyCart('Tu carrito está vacío');
+                    } else {
                         displayCartItems(data.items, data.total, data.total_items);
                         loadRecommendations();
-                    } else {
-                        console.warn('Carrito vacío o error:', data.message);
-                        showEmptyCart(data.message);
                     }
-                } catch(e) {
-                    console.error('Error parseando JSON:', e);
-                    console.error('Texto recibido:', text.substring(0, 500));
-                    showEmptyCart('Error al procesar datos del carrito');
+                } else {
+                    showEmptyCart(data.message || 'Error al cargar el carrito');
                 }
             })
             .catch(error => {
-                console.error('Error completo:', error);
-                showEmptyCart('Error al cargar el carrito: ' + error.message);
+                console.error('Error:', error);
+                showEmptyCart('Error al cargar el carrito');
             });
     }
     
@@ -48,12 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.querySelector('.productos-carrito');
         
         if(!container) {
-            console.error('No se encontró el contenedor de productos');
-            return;
-        }
-        
-        if(items.length === 0) {
-            showEmptyCart('Tu carrito está vacío');
             return;
         }
         
@@ -150,14 +153,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetch(`${baseUrl}/backend/ajax/update_cart.php`, {
             method: 'POST',
+            credentials: 'include',
             body: formData
         })
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
                     loadCartPage();
-                } else {
-                    console.error('Error al actualizar:', data.message);
                 }
             })
             .catch(error => {
@@ -172,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 displayRecommendations(products.slice(0, 4));
             })
             .catch(error => {
-                console.error('Error cargando recomendaciones:', error);
+                console.error('Error:', error);
             });
     }
     

@@ -13,15 +13,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
-include($root_dir . 'db_connection.php');
+// Verificar si estamos en remoto o local para la conexión
+$is_local = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1');
 
-if(!isset($_SESSION['user_id'])){
-    echo json_encode(['success' => false, 'message' => 'No autorizado']);
+if ($is_local) {
+    // Conexión local
+    $conn = mysqli_connect('localhost', 'root', '', 'shop');
+} else {
+    // Conexión remota
+    $conn = mysqli_connect('remotehost.es', 'dwess1234', 'Usertest1234.', 'dwesdatabase');
+}
+
+if(!$conn){
+    echo json_encode(['success' => false, 'message' => 'Error de conexión']);
     exit;
 }
 
-$customer_id = $_SESSION['user_id'];
+mysqli_set_charset($conn, "utf8");
+
+// SI NO HAY SESIÓN, CREAR UNA AUTOMÁTICAMENTE CON EL USUARIO INVITADO
+if(!isset($_SESSION['user_id'])){
+    $sql_guest = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
+    $result_guest = mysqli_query($conn, $sql_guest);
+    
+    if($result_guest && mysqli_num_rows($result_guest) > 0) {
+        $user = mysqli_fetch_assoc($result_guest);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['type_client'] = $user['type_client'];
+        $_SESSION['is_guest'] = true;
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Sin sesión']);
+        mysqli_close($conn);
+        exit;
+    }
+}
+
+$customer_id = intval($_SESSION['user_id']);
 $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 

@@ -1,7 +1,8 @@
 <?php
 // backend/ajax/get_cart.php
 session_start();
-
+$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
+include($root_dir . 'db_connection.php');
 // Headers CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
@@ -14,8 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-// Conectar a la base de datos SIN incluir header ni footer
-$conn = mysqli_connect('localhost', 'root', '', 'shop');
 if(!$conn){
     echo json_encode([
         'success' => false,

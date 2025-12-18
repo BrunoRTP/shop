@@ -1,17 +1,60 @@
 <?php
 session_start();
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
-include($root_dir . 'db_connection.php'); 
+// Manejar peticiones OPTIONS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
-// Verificar si hay sesión
-if(!isset($_SESSION['user_id'])){
+// Verificar si estamos en remoto o local para la conexión
+$is_local = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1');
+
+if ($is_local) {
+    $conn = mysqli_connect('localhost', 'root', '', 'shop');
+} else {
+    $conn = mysqli_connect('remotehost.es', 'dwess1234', 'Usertest1234.', 'dwesdatabase');
+}
+
+if(!$conn){
     echo json_encode([
         'success' => false,
-        'message' => 'No hay sesión activa'
+        'message' => 'Error de conexión'
     ]);
-    exit;
+    exit();
+}
+
+mysqli_set_charset($conn, "utf8");
+
+// SI NO HAY SESIÓN, CREAR UNA AUTOMÁTICAMENTE CON EL USUARIO INVITADO
+if(!isset($_SESSION['user_id'])){
+    $sql = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
+    
+    if($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['type_client'] = $user['type_client'];
+        $_SESSION['is_guest'] = true;
+    } else {
+        // Crear usuario invitado si no existe
+        $password_hash = password_hash('guest123', PASSWORD_DEFAULT);
+        $sql_create = "INSERT INTO 025_customers (username, password_hash, type_client) 
+                       VALUES ('invitado', '$password_hash', 'guest')";
+        
+        if(mysqli_query($conn, $sql_create)) {
+            $user_id = mysqli_insert_id($conn);
+            $_SESSION['user_id'] = $user_id;
+            $_SESSION['username'] = 'invitado';
+            $_SESSION['type_client'] = 'guest';
+            $_SESSION['is_guest'] = true;
+        }
+    }
 }
 
 $product_id = isset($_POST['id']) ? intval($_POST['id']) : (isset($_GET['id']) ? intval($_GET['id']) : 0);
@@ -22,6 +65,7 @@ if($product_id <= 0) {
         'success' => false,
         'message' => 'ID de producto inválido'
     ]);
+    mysqli_close($conn);
     exit;
 }
 
@@ -34,6 +78,7 @@ if(mysqli_num_rows($result_product) == 0) {
         'success' => false,
         'message' => 'Producto no encontrado'
     ]);
+    mysqli_close($conn);
     exit;
 }
 
@@ -43,6 +88,7 @@ if($product['stock'] <= 0) {
         'success' => false,
         'message' => 'Producto sin stock'
     ]);
+    mysqli_close($conn);
     exit;
 }
 

@@ -1,28 +1,25 @@
 <?php
 session_start();
-
-// AGREGAR CABECERAS CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-// Manejar peticiones OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
     exit();
 }
 
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir . 'db_connection.php');
 
-// Verificar si hay sesión
+// Si no hay sesión
 if(!isset($_SESSION['user_id'])){
     echo json_encode([
         'success' => false,
         'count' => 0,
         'message' => 'No hay sesión activa'
     ]);
+    mysqli_close($conn);
     exit;
 }
 

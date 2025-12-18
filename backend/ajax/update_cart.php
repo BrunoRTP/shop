@@ -1,43 +1,24 @@
 <?php
 session_start();
-
-// AGREGAR CABECERAS CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-// Manejar peticiones OPTIONS (preflight)
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
     exit();
 }
 
-// Verificar si estamos en remoto o local para la conexión
-$is_local = ($_SERVER['HTTP_HOST'] === 'localhost' || $_SERVER['HTTP_HOST'] === '127.0.0.1');
+$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
+include($root_dir . 'db_connection.php');
 
-if ($is_local) {
-    // Conexión local
-    $conn = mysqli_connect('localhost', 'root', '', 'shop');
-} else {
-    // Conexión remota
-    $conn = mysqli_connect('remotehost.es', 'dwess1234', 'Usertest1234.', 'dwesdatabase');
-}
-
-if(!$conn){
-    echo json_encode(['success' => false, 'message' => 'Error de conexión']);
-    exit;
-}
-
-mysqli_set_charset($conn, "utf8");
-
-// SI NO HAY SESIÓN, CREAR UNA AUTOMÁTICAMENTE CON EL USUARIO INVITADO
+// Si no hay sesión, crear una con invitado
 if(!isset($_SESSION['user_id'])){
-    $sql_guest = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
-    $result_guest = mysqli_query($conn, $sql_guest);
+    $sql = "SELECT * FROM 025_customers WHERE username = 'invitado' LIMIT 1";
+    $result = mysqli_query($conn, $sql);
     
-    if($result_guest && mysqli_num_rows($result_guest) > 0) {
-        $user = mysqli_fetch_assoc($result_guest);
+    if($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['type_client'] = $user['type_client'];
@@ -55,75 +36,50 @@ $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 if($product_id <= 0 || !in_array($action, ['add', 'remove'])){
     echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
+    mysqli_close($conn);
     exit;
 }
 
+// Ejecutar acción
 if($action === 'add') {
-    // Verificar si el producto ya está en el carrito
-    $sql_check = "SELECT quantity FROM 025_cart 
-                  WHERE customer_id = $customer_id AND product_id = $product_id";
-    $result_check = mysqli_query($conn, $sql_check);
+    $sql = "SELECT quantity FROM 025_cart WHERE customer_id = $customer_id AND product_id = $product_id";
+    $result = mysqli_query($conn, $sql);
     
-    if(mysqli_num_rows($result_check) > 0) {
-        // El producto ya existe, incrementar cantidad
-        $sql = "UPDATE 025_cart 
-                SET quantity = quantity + 1 
-                WHERE customer_id = $customer_id AND product_id = $product_id";
-        mysqli_query($conn, $sql);
+    if(mysqli_num_rows($result) > 0) {
+        $sql = "UPDATE 025_cart SET quantity = quantity + 1 WHERE customer_id = $customer_id AND product_id = $product_id";
     } else {
-        // El producto no existe, insertarlo
-        $sql = "INSERT INTO 025_cart (customer_id, product_id, quantity) 
-                VALUES ($customer_id, $product_id, 1)";
-        mysqli_query($conn, $sql);
+        $sql = "INSERT INTO 025_cart (customer_id, product_id, quantity) VALUES ($customer_id, $product_id, 1)";
     }
-}
-else if($action === 'remove') {
-    $sql_check = "SELECT quantity FROM 025_cart 
-                  WHERE customer_id = $customer_id AND product_id = $product_id";
-    $result_check = mysqli_query($conn, $sql_check);
-    $row = mysqli_fetch_assoc($result_check);
+    mysqli_query($conn, $sql);
+} else {
+    $sql = "SELECT quantity FROM 025_cart WHERE customer_id = $customer_id AND product_id = $product_id";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
     
     if($row && $row['quantity'] > 1) {
-        $sql = "UPDATE 025_cart 
-                SET quantity = quantity - 1 
-                WHERE customer_id = $customer_id AND product_id = $product_id";
-        mysqli_query($conn, $sql);
+        $sql = "UPDATE 025_cart SET quantity = quantity - 1 WHERE customer_id = $customer_id AND product_id = $product_id";
     } else {
-        $sql = "DELETE FROM 025_cart 
-                WHERE customer_id = $customer_id AND product_id = $product_id";
-        mysqli_query($conn, $sql);
+        $sql = "DELETE FROM 025_cart WHERE customer_id = $customer_id AND product_id = $product_id";
     }
+    mysqli_query($conn, $sql);
 }
 
 // Obtener información actualizada del item
-$sql_item = "SELECT c.quantity, p.price 
-             FROM 025_cart c 
-             INNER JOIN 025_products p ON c.product_id = p.id
-             WHERE c.customer_id = $customer_id AND c.product_id = $product_id";
-
-$result_item = mysqli_query($conn, $sql_item);
-$item = mysqli_fetch_assoc($result_item);
+$sql = "SELECT c.quantity, p.price FROM 025_cart c 
+        INNER JOIN 025_products p ON c.product_id = p.id
+        WHERE c.customer_id = $customer_id AND c.product_id = $product_id";
+$result = mysqli_query($conn, $sql);
+$item = mysqli_fetch_assoc($result);
 
 $quantity = $item ? $item['quantity'] : 0;
 $subtotal = $item ? number_format($item['quantity'] * $item['price'], 2) : '0.00';
 
 // Obtener total del carrito
-$sql_total = "SELECT SUM(c.quantity * p.price) as total 
-              FROM 025_cart c 
-              INNER JOIN 025_products p ON c.product_id = p.id
-              WHERE c.customer_id = $customer_id";
-
-$result_total = mysqli_query($conn, $sql_total);
-$total_row = mysqli_fetch_assoc($result_total);
-$total = number_format($total_row['total'] ?? 0, 2);
-
-// Obtener cantidad total de items en el carrito
-$sql_count = "SELECT SUM(quantity) as total_items 
-              FROM 025_cart 
-              WHERE customer_id = $customer_id";
-$result_count = mysqli_query($conn, $sql_count);
-$count_row = mysqli_fetch_assoc($result_count);
-$total_items = $count_row['total_items'] ?? 0;
+$sql = "SELECT SUM(c.quantity * p.price) as total, SUM(c.quantity) as total_items 
+        FROM 025_cart c INNER JOIN 025_products p ON c.product_id = p.id
+        WHERE c.customer_id = $customer_id";
+$result = mysqli_query($conn, $sql);
+$totals = mysqli_fetch_assoc($result);
 
 mysqli_close($conn);
 
@@ -131,7 +87,7 @@ echo json_encode([
     'success' => true,
     'quantity' => $quantity,
     'subtotal' => $subtotal,
-    'total' => $total,
-    'total_items' => $total_items
+    'total' => number_format($totals['total'] ?? 0, 2),
+    'total_items' => $totals['total_items'] ?? 0
 ]);
 ?>

@@ -1,35 +1,18 @@
 <?php
-// backend/ajax/get_cart.php
 session_start();
-$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
-include($root_dir . 'db_connection.php');
-// Headers CORS
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
-// Manejar peticiones OPTIONS
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
     exit();
 }
 
-if(!$conn){
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error de conexión: ' . mysqli_connect_error(),
-        'items' => [],
-        'total' => '0.00',
-        'total_items' => 0
-    ]);
-    exit();
-}
+$root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
+include($root_dir . 'db_connection.php');
 
-mysqli_set_charset($conn, "utf8");
-mysqli_query($conn, "SET time_zone = '+01:00'");
-
-// Verificar si hay sesión
+// Si no hay sesión
 if(!isset($_SESSION['user_id'])){
     echo json_encode([
         'success' => false,
@@ -44,7 +27,7 @@ if(!isset($_SESSION['user_id'])){
 
 $customer_id = $_SESSION['user_id'];
 
-// Obtener productos del carrito con información completa
+// Obtener productos del carrito
 $sql = "SELECT c.product_id, c.quantity, 
                p.name, p.description, p.price, p.stock, p.image
         FROM 025_cart c
@@ -53,18 +36,6 @@ $sql = "SELECT c.product_id, c.quantity,
         ORDER BY c.product_id ASC";
 
 $result = mysqli_query($conn, $sql);
-
-if(!$result) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error en la consulta: ' . mysqli_error($conn),
-        'items' => [],
-        'total' => '0.00',
-        'total_items' => 0
-    ]);
-    mysqli_close($conn);
-    exit;
-}
 
 $items = array();
 $total = 0;
@@ -96,7 +67,6 @@ while($row = mysqli_fetch_assoc($result)) {
 
 mysqli_close($conn);
 
-// Devolver JSON limpio (sin HTML)
 echo json_encode([
     'success' => true,
     'items' => $items,

@@ -1,0 +1,126 @@
+/* Estilos para el widget del clima en el footer */
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.weather-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.btn-refresh-weather {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+    align-self: flex-end;
+}
+
+.btn-refresh-weather:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-refresh-weather:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-refresh-weather.loading {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.weather-current {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.weather-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.weather-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.weather-temp {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.weather-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.weather-details {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.weather-history {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.history-day {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.history-date {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 5px;
+}
+
+.history-icon img {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.history-temp {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    margin-top: 5px;
+}
+
+.history-wind {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+}

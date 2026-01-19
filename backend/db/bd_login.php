@@ -1,5 +1,6 @@
 <?php
-session_start(); // Iniciar sesión para guardar datos del usuario
+session_start();
+date_default_timezone_set('Europe/Madrid');
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir. 'header.php'); 
 include($root_dir . 'db_connection.php'); 
@@ -10,10 +11,10 @@ include($root_dir . 'db_connection.php');
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $username = mysqli_real_escape_string($conn, $username);
+        $username_escaped = mysqli_real_escape_string($conn, $username);
         
         // Buscar el usuario por username
-        $sql = "SELECT * FROM 025_customers WHERE username = '$username'";
+        $sql = "SELECT * FROM 025_customers WHERE username = '$username_escaped'";
         $result = mysqli_query($conn, $sql);
         
         if($result){
@@ -24,6 +25,11 @@ include($root_dir . 'db_connection.php');
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['type_client'] = $user['type_client'];
+                    
+                    // Log
+                    $f = fopen($root_dir . 'logs/login.txt', 'a');
+                    fwrite($f, $user['id'] . " | " . $user['username'] . " | " . date('Y-m-d H:i:s') . "\n");
+                    fclose($f);
                     
                     echo "¡Inicio de sesión exitoso! Bienvenido " . htmlspecialchars($user['username']);
 
@@ -38,6 +44,11 @@ include($root_dir . 'db_connection.php');
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['username'];
                     $_SESSION['type_client'] = $user['type_client'];
+                    
+                    // Log
+                    $f = fopen($root_dir . 'logs/login.txt', 'a');
+                    fwrite($f, $user['id'] . " | " . $user['username'] . " | " . date('Y-m-d H:i:s') . "\n");
+                    fclose($f);
                     
                     echo "¡Inicio de sesión exitoso! Bienvenido " . htmlspecialchars($user['username']);
 

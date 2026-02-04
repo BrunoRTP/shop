@@ -5,40 +5,53 @@
     flex-direction: column;
     gap: 20px;
     padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 @media (min-width: 768px) {
     .footer-content {
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
     }
 }
 
+/* Widget del clima */
 .weather-widget {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
     background: rgba(255, 255, 255, 0.1);
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 12px;
     position: relative;
+    backdrop-filter: blur(10px);
+    min-width: 300px;
 }
 
+@media (min-width: 768px) {
+    .weather-widget {
+        min-width: 500px;
+    }
+}
+
+/* Botón de actualizar */
 .btn-refresh-weather {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: rgba(255, 255, 255, 0.2);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 8px 12px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
     transition: all 0.3s ease;
-    align-self: flex-end;
+    z-index: 10;
 }
 
 .btn-refresh-weather:hover {
     background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
 }
 
 .btn-refresh-weather:disabled {
@@ -55,72 +68,130 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Contenedor principal: clima actual + historial lado a lado */
+.weather-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+@media (min-width: 768px) {
+    .weather-content {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+/* Clima actual (izquierda) */
 .weather-current {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex: 0 0 auto;
 }
 
 .weather-icon img {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .weather-info {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
 }
 
 .weather-temp {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
     color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    line-height: 1;
 }
 
 .weather-desc {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 4px;
 }
 
 .weather-details {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
+.weather-details::before {
+    content: "💨";
+    font-size: 14px;
+}
+
+/* Historial (derecha) */
 .weather-history {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 8px;
+    flex: 1;
 }
 
 .history-day {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 8px;
-    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 10px 8px;
+    border-radius: 8px;
     text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-day:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .history-date {
     font-size: 10px;
     color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.history-icon {
+    margin: 8px 0;
 }
 
 .history-icon img {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     margin: 0 auto;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .history-temp {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     color: white;
-    margin-top: 5px;
+    margin: 6px 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .history-wind {
     font-size: 10px;
     color: rgba(255, 255, 255, 0.7);
+}
+
+.history-wind::before {
+    font-size: 9px;
+}
+
+@media (max-width: 767px) {
+    .weather-history {
+        margin-top: 10px;
+    }
+    
+    .weather-current {
+        justify-content: center;
+    }
 }

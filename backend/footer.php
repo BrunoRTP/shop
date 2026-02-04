@@ -38,33 +38,30 @@ $current_language = isset($_COOKIE['user_language']) ? $_COOKIE['user_language']
             <?php if(isset($_SESSION['type_client']) && $_SESSION['type_client'] == 'admin'): ?>
             <!-- Botón de actualización manual (solo admin) -->
             <button id="btn-refresh-weather" class="btn-refresh-weather" title="Actualizar datos del clima desde AccuWeather">
-                🔄 Actualizar Clima
+                🔄 Actualizar
             </button>
             <?php endif; ?>
             
-            <div class="weather-current">
-                <div class="weather-icon">
-                    <img src="" alt="Weather" id="weather-icon-img">
-                </div>
-                <div class="weather-info">
-                    <div class="weather-temp" id="current-temp">--°C</div>
-                    <div class="weather-desc" id="current-desc">Cargando...</div>
-                    <div class="weather-details">
-                        <span id="current-wind">-- km/h</span>
+            <div class="weather-content">
+                <!-- Clima actual (izquierda) -->
+                <div class="weather-current">
+                    <div class="weather-icon">
+                        <img src="" alt="Weather" id="weather-icon-img">
+                    </div>
+                    <div class="weather-info">
+                        <div class="weather-temp" id="current-temp">--°C</div>
+                        <div class="weather-desc" id="current-desc">Cargando...</div>
+                        <div class="weather-details">
+                            <span id="current-wind">-- km/h</span>
+                        </div>
                     </div>
                 </div>
+                
+                <!-- Historial de 3 días (derecha) -->
+                <div class="weather-history" id="weather-history">
+                    <!-- Se llenará con JavaScript -->
+                </div>
             </div>
-            
-            <!-- Historial de 3 días -->
-            <div class="weather-history" id="weather-history">
-                <!-- Se llenará con JavaScript -->
-            </div>
-        </div>
-        
-        <div class="social-links">
-            <a href="#" class="social-icon">boton1</a>
-            <a href="#" class="social-icon">boton2</a>
-            <a href="#" class="social-icon">boton3</a>
         </div>
     </div>
 </footer>

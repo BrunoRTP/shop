@@ -37,7 +37,7 @@ $history = [];
 
 while ($row = mysqli_fetch_assoc($result_history)) {
     $weather_data = json_decode($row['json_data'], true);
-    
+
     $history[] = [
         'date' => $row['date'],
         'time' => date('H:i', strtotime($row['recorded_at'])),

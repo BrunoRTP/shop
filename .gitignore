@@ -1,2 +1,3 @@
 /node_modules
 /backend/api/weather_fetch.php
+/backend/api/weather_json

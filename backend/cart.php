@@ -69,22 +69,44 @@
     </table>
     
     <br>
-    <button>
-        <a href="/student025/shop/backend/products.php" class="social-icon">Volver a Productos</a>
-    </button>
     
-    <?php if($has_items): ?>
-    <button id="checkout-btn" onclick="if(confirm('¿Confirmar pedido por €<?= number_format($total, 2) ?>?')) window.location.href='/student025/shop/backend/db/db_cart_checkout.php'">
-        Realizar Pedido
-    </button>
-    <?php else: ?>
-    <button id="checkout-btn" style="display: none;">
-        Realizar Pedido
-    </button>
-    <?php endif; ?>
+    <div class="container" style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 20px;">
+        <h3>Datos de Envío</h3>
+        <label for="address">Dirección de entrega:</label><br>
+        <textarea id="address" name="address" rows="3" style="width: 100%; max-width: 400px;" placeholder="Calle, número, piso, ciudad..." required></textarea>
+        
+        <br><br>
+
+        <?php if($has_items): ?>
+        <button id="checkout-btn" onclick="processCheckout()">
+            Realizar Pedido
+        </button>
+        <?php else: ?>
+        <button id="checkout-btn" style="display: none;">
+            Realizar Pedido
+        </button>
+        <?php endif; ?>
+        <button>
+            <a href="/student025/shop/backend/products.php" class="social-icon">Volver a Productos</a>
+        </button>
+    </div>
 </div>
 
 <script src="/student025/shop/js/cart.js"></script>
+<script>
+    function processCheckout() {
+    const address = document.getElementById('address').value.trim();
+    
+    if (address === "") {
+        alert("Por favor, introduce una dirección de envío.");
+        return;
+    }
+
+    if (confirm('¿Confirmar pedido por €<?= number_format($total, 2) ?>?')) {
+        window.location.href = '/student025/shop/backend/db/db_cart_checkout.php?address=' + encodeURIComponent(address);
+    }
+}
+</script>
 
 <?php 
     mysqli_close($conn);

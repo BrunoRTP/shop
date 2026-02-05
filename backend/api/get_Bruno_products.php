@@ -5,8 +5,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 include_once '../db_connection.php';
-// Forzar zona horaria de España
-date_default_timezone_set('Europe/Madrid');
+
 $api_key = $_GET['api_key'] ?? '';
 
 $sql = "Select * FROM 025_sellers WHERE api_key = '$api_key'";

@@ -6,6 +6,15 @@
     include($root_dir . 'db_connection.php'); 
 ?>
 
+<?php
+    // Obtener la dirección del usuario
+    $customer_id = $_SESSION['user_id'];
+    $sql_address = "SELECT address FROM 025_customers WHERE id = $customer_id";
+    $result_address = mysqli_query($conn, $sql_address);
+    $customer = mysqli_fetch_assoc($result_address);
+    $default_address = $customer['address'] ?? '';
+?>
+
 <div class="container">
     <h2>Carrito de Compras</h2>
     
@@ -22,8 +31,6 @@
         </thead>
         <tbody>
             <?php
-                $customer_id = $_SESSION['user_id'];
-                
                 $sql = "SELECT c.*, p.name, p.price 
                         FROM 025_cart c 
                         INNER JOIN 025_products p ON c.product_id = p.id
@@ -73,7 +80,7 @@
     <div class="container" style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 20px;">
         <h3>Datos de Envío</h3>
         <label for="address">Dirección de entrega:</label><br>
-        <textarea id="address" name="address" rows="3" style="width: 100%; max-width: 400px;" placeholder="Calle, número, piso, ciudad..." required></textarea>
+        <textarea id="address" name="address" rows="3" style="width: 100%; max-width: 400px;" placeholder="Calle, número, piso, ciudad..." required><?= htmlspecialchars($default_address) ?></textarea>
         
         <br><br>
 

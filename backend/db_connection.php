@@ -14,7 +14,10 @@
             $dbName = 'dwesdatabase';
             break;
         default:
-
+            $hostName='remotehost.es';
+            $user = 'dwess1234';
+            $password = 'Usertest1234.';
+            $dbName = 'dwesdatabase';
             break;
     }
 

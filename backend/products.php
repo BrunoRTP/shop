@@ -21,13 +21,29 @@
         placeholder="Buscar productos"
     >
     <div id="search-count"></div>
+
+    <div style="margin-top: 10px;">
+        <button>
+            <?php if (isset($_GET['filter']) && $_GET['filter'] == 'others'): ?>
+                <a href="products.php" class="social-icon">Ver todos</a>
+            <?php else: ?>
+                <a href="products.php?filter=others" class="social-icon">Ver externos (Supplier != 1)</a>
+            <?php endif; ?>
+        </button>
+    </div>
 </div>
 
 <hr>
 
 <div id="products-container">
 <?php
-    $sql = "SELECT * FROM 025_products";
+    if (isset($_GET['filter']) && $_GET['filter'] == 'others') {
+        $sql = "SELECT * FROM 025_products WHERE supplier_id != 1";
+    } else {
+        $sql = "SELECT * FROM 025_products";
+    }
+    
+    $result = mysqli_query($conn, $sql);
     $result = mysqli_query($conn, $sql); 
     while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];

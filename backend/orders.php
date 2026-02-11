@@ -15,7 +15,7 @@
 <hr>
 
 <?php
-    $sql = "SELECT o.*, c.username, p.name as product_name 
+    $sql = "SELECT o.*, c.username, c.email as customer_email, p.name as product_name 
             FROM 025_order o
             LEFT JOIN 025_customers c ON o.customer_id = c.id
             LEFT JOIN 025_products p ON o.product_id = p.id";
@@ -32,7 +32,6 @@
     // Agrupar pedidos por fecha
     $orders_by_date = [];
     while ($row = mysqli_fetch_assoc($result)) {
-        // Guardamos la fecha
         $order_date = date('Y-m-d H:i:s', strtotime($row['order_date']));
         
         if(!isset($orders_by_date[$order_date])){
@@ -58,7 +57,9 @@
                 $id = $row['id'];
                 $total_group += $row['price'];
                 
-                echo '<div class="order-item">'; 
+                // IMPORTANTE: Añadir atributos data- para cross-selling
+                echo '<div class="order-item order-row" 
+                      data-product-id="' . $row['product_id'] . '">'; 
                 
                 echo '<div class="info-container">'; 
                 
@@ -70,27 +71,34 @@
                 }
                 
                 echo "<strong>Producto:</strong> " . $row['product_name'] . " | ";
-                echo "<strong>Cantidad:</strong> " . $row['quantity'] . " | ";
+                echo '<span data-quantity="' . $row['quantity'] . '"><strong>Cantidad:</strong> ' . $row['quantity'] . '</span> | ';
                 echo "<strong>Precio:</strong> €" . number_format($row['price'], 2);
+                
+                // Datos ocultos para cross-selling
+                echo '<span data-email="' . htmlspecialchars($row['email'] ?? $row['customer_email'] ?? '') . '" style="display:none;"></span>';
+                echo '<span data-address="' . htmlspecialchars($row['address'] ?? '') . '" style="display:none;"></span>';
+                
                 echo '</div>';
                 
                 if($_SESSION['type_client'] == 'admin'){
-                    echo '<div class="producto-acciones">';
+                    echo '<div class="producto-acciones acciones-cell">';
                     echo '<button>';
                     echo '  <a href="/student025/shop/backend/forms/form_order_update_call.php?id=' . $id . '" class="social-icon">Update</a>';
                     echo '</button>';
                     echo '<button>';
                     echo '  <a href="/student025/shop/backend/forms/form_order_delete_call.php?id=' . $id . '" class="social-icon">Delete</a>';
                     echo '</button>';
+                    // Aquí se insertará automáticamente el botón de proveedor externo si aplica
                     echo '</div>';
                 } else {
-                    echo '<div class="producto-acciones">';
+                    echo '<div class="producto-acciones acciones-cell">';
                     echo '<button>';
                     echo '  <a href="/student025/shop/backend/forms/form_review_insert.php?product_id=' . $row['product_id'] . '" class="social-icon">Añadir Review</a>';
                     echo '</button>';
                     echo '<button>';
                     echo '  <a href="/student025/shop/backend/forms/form_order_delete_call.php?id=' . $id . '" class="social-icon">Cancelar Pedido</a>';
                     echo '</button>';
+                    // Aquí se insertará automáticamente el botón de proveedor externo si aplica
                     echo '</div>';
                 }
                 
@@ -121,5 +129,7 @@
         echo '</button>';
     }
 ?>
+
+<script src="/student025/shop/js/crosssite_selling.js"></script>
 
 <?php include($root_dir . 'footer.php'); ?>

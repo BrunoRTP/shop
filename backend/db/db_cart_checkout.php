@@ -50,15 +50,21 @@ $order_date = date('Y-m-d H:i:s');
 $orders_created = 0;
 $errors = [];
 
+// Obtener el email del usuario actual UNA VEZ antes del loop
+$sql_email = "SELECT email FROM 025_customers WHERE id = $customer_id";
+$result_email = mysqli_query($conn, $sql_email);
+$customer_data = mysqli_fetch_assoc($result_email);
+$email = $customer_data['email'] ?? '';
+
 // 5. Procesar cada producto del carrito y convertirlo en pedido (order)
 while($item = mysqli_fetch_assoc($result)){
     $product_id = $item['product_id'];
     $quantity = $item['quantity'];
     $price = $item['price'] * $quantity;
     
-    // Insertamos incluyendo la dirección capturada
-    $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price, address, order_date) 
-                   VALUES ($customer_id, $product_id, $quantity, $price, '$address', '$order_date')";
+    // IMPORTANTE: Ahora insertamos incluyendo la dirección Y EL EMAIL
+    $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price, address, email, order_date) 
+                   VALUES ($customer_id, $product_id, $quantity, $price, '$address', '$email', '$order_date')";
     
     if(mysqli_query($conn, $sql_insert)){
         $orders_created++;

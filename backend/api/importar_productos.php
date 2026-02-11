@@ -41,7 +41,16 @@ foreach ($productos_externos as $prod) {
     $price = mysqli_real_escape_string($conn, $prod['price']);
     
     echo "ID_code: $id_code, Name: $name, Price: $price<br>";
-    
+    $check_sql = "SELECT id FROM 025_products WHERE id_code = '$id_code' LIMIT 1";
+    $result = mysqli_query($conn, $check_sql);
+    if(mysqli_num_rows($result) > 0) {
+        $sql_update = "UPDATE 025_products 
+                       SET name = '$name', price = '$price' 
+                       WHERE id_code = '$id_code'";
+        mysqli_query($conn, $sql_update);
+        echo "Producto actualizado: $id_code<br>";
+        continue;
+    }
     $sql = "INSERT INTO 025_products (id_code, name, price, stock, category_id, supplier_id) 
             VALUES ('$id_code', '$name', '$price', 0, 1, 3)";
     

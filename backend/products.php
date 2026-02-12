@@ -40,7 +40,7 @@
     if (isset($_GET['filter']) && $_GET['filter'] == 'others') {
         $sql = "SELECT * FROM 025_products WHERE supplier_id != 1";
     } else {
-        $sql = "SELECT * FROM 025_products";
+        $sql = "SELECT * FROM 025_products WHERE stock > 0";
     }
     
     $result = mysqli_query($conn, $sql);
@@ -48,7 +48,7 @@
     while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $name = htmlspecialchars($row['name']);
-        $description = htmlspecialchars($row['description']);
+        $description = $row['description'];
         
         // Verificar si tiene imagen
         $image_src = '/student025/shop/assets/img/ph.jpg'; // Placeholder por defecto

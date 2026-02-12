@@ -4,17 +4,24 @@ $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir. 'header.php'); 
 include($root_dir . 'db_connection.php'); 
 
+// Incluir PHPMailer
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/Exception.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/PHPMailer.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 // 1. Verificar si el usuario está logueado
 if(!isset($_SESSION['user_id'])){
     header("Location: /student025/shop/backend/form_login.php");     
     exit; 
 }
 
-// 2. Capturar la dirección que viene de cart.php (vía JavaScript)
-// Usamos mysqli_real_escape_string para evitar inyecciones SQL y errores por comillas
+// 2. Capturar la dirección que viene de cart.php
 $address = isset($_GET['address']) ? mysqli_real_escape_string($conn, $_GET['address']) : '';
 
-// Si la dirección está vacía, detenemos el proceso
 if(empty($address)){
     echo "<div class='container'>";
     echo "<h2>Error: La dirección de envío es obligatoria.</h2>";
@@ -28,7 +35,7 @@ if(empty($address)){
 $customer_id = $_SESSION['user_id'];
 
 // 3. Obtener los productos que están en el carrito del usuario
-$sql = "SELECT c.product_id, c.quantity, p.price 
+$sql = "SELECT c.product_id, c.quantity, p.name, p.price 
         FROM 025_cart c
         JOIN 025_products p ON c.product_id = p.id
         WHERE c.customer_id = $customer_id";
@@ -44,27 +51,41 @@ if(mysqli_num_rows($result) == 0){
     exit;
 }
 
-// 4. Configurar fecha y variables de control
+// 4. Configurar fecha y variables
 date_default_timezone_set('Europe/Madrid');
 $order_date = date('Y-m-d H:i:s');
 $orders_created = 0;
 $errors = [];
 
-// Obtener el email del usuario actual UNA VEZ antes del loop
-$sql_email = "SELECT email FROM 025_customers WHERE id = $customer_id";
-$result_email = mysqli_query($conn, $sql_email);
-$customer_data = mysqli_fetch_assoc($result_email);
-$email = $customer_data['email'] ?? '';
+// Obtener datos del usuario
+$sql_customer = "SELECT email, username FROM 025_customers WHERE id = $customer_id";
+$result_customer = mysqli_query($conn, $sql_customer);
+$customer_data = mysqli_fetch_assoc($result_customer);
+$customer_email = $customer_data['email'] ?? '';
+$customer_name = $customer_data['username'] ?? 'Cliente';
 
-// 5. Procesar cada producto del carrito y convertirlo en pedido (order)
+// Array para almacenar productos del pedido
+$products_for_email = [];
+$subtotal = 0;
+
+// 5. Procesar cada producto del carrito
 while($item = mysqli_fetch_assoc($result)){
     $product_id = $item['product_id'];
     $quantity = $item['quantity'];
     $price = $item['price'] * $quantity;
     
-    // IMPORTANTE: Ahora insertamos incluyendo la dirección Y EL EMAIL
+    // Guardar para el email
+    $products_for_email[] = [
+        'name' => $item['name'],
+        'quantity' => $quantity,
+        'price' => $item['price']
+    ];
+    
+    $subtotal += $price;
+    
+    // Insertar pedido
     $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price, address, email, order_date) 
-                   VALUES ($customer_id, $product_id, $quantity, $price, '$address', '$email', '$order_date')";
+                   VALUES ($customer_id, $product_id, $quantity, $price, '$address', '$customer_email', '$order_date')";
     
     if(mysqli_query($conn, $sql_insert)){
         $orders_created++;
@@ -73,31 +94,162 @@ while($item = mysqli_fetch_assoc($result)){
     }
 }
 
-// 6. Si todo ha ido bien, vaciamos el carrito y mostramos confirmación
-echo "<div class='container'>";
-if($orders_created > 0 && empty($errors)){
-    $sql_clear = "DELETE FROM 025_cart WHERE customer_id = $customer_id";
-    mysqli_query($conn, $sql_clear);
+// 6. Calcular IVA y total
+$tax = $subtotal * 0.21; // 21% IVA
+$total = $subtotal + $tax;
+
+// 7. Generar número de pedido único
+$order_number = 'PED-' . date('Ymd-His') . '-' . $customer_id;
+
+// 8. ENVIAR EMAIL
+if($orders_created > 0 && empty($errors) && !empty($customer_email)){
+    $mail = new PHPMailer(true);
     
-    echo "<h2>¡Pedido completado exitosamente!</h2>";
-    echo "<p>Se han procesado $orders_created productos correctamente.</p>";
-    echo "<p><strong>Dirección de entrega:</strong> " . htmlspecialchars($_GET['address']) . "</p>";
-    echo "<p>Fecha: " . date('d/m/Y H:i', strtotime($order_date)) . "</p>";
-    echo "<p>Tu carrito ha sido vaciado.</p>";
-    echo "<br><a href='/student025/shop/backend/orders.php'>Ver mis pedidos</a>";
-    echo " | <a href='/student025/shop/backend/products.php'>Seguir comprando</a>";
-} else {
-    echo "<h2>Hubo problemas al procesar tu pedido</h2>";
-    if(!empty($errors)){
-        echo "<p>Errores encontrados:</p><ul>";
-        foreach($errors as $error){
-            echo "<li>$error</li>";
+    try {
+        // Configuración SMTP
+        $mail->isSMTP();
+        $mail->Host = "smtp.remotehost.es";
+        $mail->SMTPAuth = true;
+        $mail->Username = "no-reply@remotehost.es";
+        $mail->Password = "Justfortesting26#";
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+        $mail->CharSet = 'UTF-8';
+        
+        // Remitente y destinatario
+        $mail->setFrom('no-reply@remotehost.es', 'RemoteHost');
+        $mail->addAddress($customer_email, $customer_name);
+        
+        // Leer CSS
+        $emailCSS = file_get_contents($root_dir . '../css/email-pedido-styles.css');
+        
+        // Generar HTML de productos
+        $productsHTML = '';
+        foreach($products_for_email as $product) {
+            $itemTotal = $product['price'] * $product['quantity'];
+            $productsHTML .= "
+            <tr class='product-row'>
+                <td class='product-name'>{$product['name']}</td>
+                <td class='product-quantity'>{$product['quantity']}</td>
+                <td class='product-price'>" . number_format($product['price'], 2) . " €</td>
+                <td class='product-total'>" . number_format($itemTotal, 2) . " €</td>
+            </tr>";
         }
-        echo "</ul>";
+        
+        // HTML del email
+        $emailHTML = "
+        <!DOCTYPE html>
+        <html lang='es'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <style>
+            {$emailCSS}
+            </style>
+        </head>
+        <body>
+            <div class='email-container'>
+                <div class='email-header'>
+                    <h1>Gracias por tu pedido</h1>
+                    <p class='subtitle'>Hemos recibido tu pedido correctamente</p>
+                </div>
+                
+                <div class='email-body'>
+                    <div class='greeting-section'>
+                        <p class='greeting'>Hola {$customer_name},</p>
+                        <p>Tu pedido ha sido registrado y lo procesaremos lo antes posible. A continuación encontrarás todos los detalles:</p>
+                    </div>
+                    
+                    <div class='info-box'>
+                        <h2>Información del pedido</h2>
+                        <div class='info-row'>
+                            <span class='label'>Número de pedido:</span>
+                            <span class='value order-number'>{$order_number}</span>
+                        </div>
+                        <div class='info-row'>
+                            <span class='label'>Fecha:</span>
+                            <span class='value'>" . date('d/m/Y H:i', strtotime($order_date)) . "</span>
+                        </div>
+                        <div class='info-row'>
+                            <span class='label'>Cliente:</span>
+                            <span class='value'>{$customer_name}</span>
+                        </div>
+                        <div class='info-row'>
+                            <span class='label'>Email:</span>
+                            <span class='value'>{$customer_email}</span>
+                        </div>
+                        <div class='info-row'>
+                            <span class='label'>Dirección de envío:</span>
+                            <span class='value'>{$address}</span>
+                        </div>
+                    </div>
+                    
+                    <div class='products-section'>
+                        <h2>Productos del pedido</h2>
+                        <table class='products-table'>
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio unitario</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {$productsHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class='totals-section'>
+                        <div class='total-row'>
+                            <span class='total-label'>Subtotal:</span>
+                            <span class='total-value'>" . number_format($subtotal, 2) . " €</span>
+                        </div>
+                        <div class='total-row'>
+                            <span class='total-label'>IVA (21%):</span>
+                            <span class='total-value'>" . number_format($tax, 2) . " €</span>
+                        </div>
+                        <div class='total-row grand-total'>
+                            <span class='total-label'>TOTAL:</span>
+                            <span class='total-value'>" . number_format($total, 2) . " €</span>
+                        </div>
+                    </div>
+                    
+                    <div class='info-alert'>
+                        <h3>📦 Próximos pasos</h3>
+                        <p>Procesaremos tu pedido en las próximas 24-48 horas. Recibirás un nuevo email cuando tu pedido sea enviado con el número de seguimiento.</p>
+                    </div>
+                    
+                    <div class='help-section'>
+                        <p>Si tienes alguna pregunta sobre tu pedido, no dudes en contactarnos:</p>
+                        <p><strong>Email:</strong> info@remotehost.es | <strong>Tel:</strong> +34 900 123 456</p>
+                    </div>
+                </div>
+                
+                <div class='email-footer'>
+                    <p><strong>RemoteHost</strong></p>
+                    <p class='footer-text'>Este es un email automático, por favor no respondas a este mensaje.</p>
+                    <p class='legal'>RemoteHost © 2026 - Todos los derechos reservados</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        // Configurar email
+        $mail->isHTML(true);
+        $mail->Subject = "Pedido recibido #{$order_number} - RemoteHost";
+        $mail->Body = $emailHTML;
+        $mail->AltBody = "Hola {$customer_name}, hemos recibido tu pedido #{$order_number}. Total: " . number_format($total, 2) . " €. Gracias por tu compra.";
+        
+        $mail->send();
+        $email_sent = true;
+    } catch (Exception $e) {
+        $email_sent = false;
+        error_log("Error al enviar email del pedido: {$mail->ErrorInfo}");
     }
-    echo "<br><a href='/student025/shop/backend/cart.php'>Volver al carrito para reintentar</a>";
 }
-echo "</div>";
 
 mysqli_close($conn);
 include($root_dir . 'footer.php'); 

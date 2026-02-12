@@ -1,0 +1,286 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.email-container {
+    max-width: 650px;
+    margin: 0 auto;
+    background-color: #ffffff;
+}
+
+.email-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.email-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.subtitle {
+    margin: 0;
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.email-body {
+    padding: 30px;
+}
+
+.greeting-section {
+    margin-bottom: 30px;
+}
+
+.greeting {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+
+.greeting-section p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.info-box {
+    background-color: #f8f9fa;
+    border-left: 4px solid #667eea;
+    padding: 20px;
+    margin: 25px 0;
+    border-radius: 5px;
+}
+
+.info-box h2 {
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: 600;
+    color: #555;
+}
+
+.value {
+    color: #333;
+    text-align: right;
+}
+
+.order-number {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 18px;
+}
+
+.products-section {
+    margin: 30px 0;
+}
+
+.products-section h2 {
+    margin: 0 0 20px 0;
+    font-size: 20px;
+    color: #333;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 10px;
+}
+
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.products-table thead {
+    background-color: #667eea;
+    color: #ffffff;
+}
+
+.products-table th {
+    padding: 12px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.products-table th:nth-child(2),
+.products-table th:nth-child(3),
+.products-table th:nth-child(4) {
+    text-align: right;
+}
+
+.product-row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.product-row:last-child {
+    border-bottom: 2px solid #667eea;
+}
+
+.product-row td {
+    padding: 15px 10px;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.product-quantity {
+    text-align: right;
+    color: #666;
+}
+
+.product-price {
+    text-align: right;
+    color: #666;
+}
+
+.product-total {
+    text-align: right;
+    font-weight: bold;
+    color: #333;
+}
+
+.totals-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 5px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.total-row.grand-total {
+    border-top: 2px solid #667eea;
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.total-row.grand-total .total-label,
+.total-row.grand-total .total-value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.info-alert {
+    background-color: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 25px 0;
+}
+
+.info-alert h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #0066cc;
+}
+
+.info-alert p {
+    margin: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.help-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.help-section p {
+    margin: 5px 0;
+    color: #666;
+    line-height: 1.6;
+}
+
+.email-footer {
+    background-color: #2c3e50;
+    color: #ffffff;
+    padding: 30px;
+    text-align: center;
+}
+
+.email-footer p {
+    margin: 8px 0;
+}
+
+.footer-text {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.legal {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 15px;
+}
+
+@media (max-width: 600px) {
+    .email-header {
+        padding: 30px 20px;
+    }
+    
+    .email-header h1 {
+        font-size: 24px;
+    }
+    
+    .email-body {
+        padding: 20px;
+    }
+    
+    .products-table {
+        font-size: 13px;
+    }
+    
+    .products-table th,
+    .product-row td {
+        padding: 10px 5px;
+    }
+    
+    .product-name {
+        font-size: 13px;
+    }
+    
+    .info-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .value {
+        text-align: left;
+    }
+    
+    .total-row.grand-total .total-label,
+    .total-row.grand-total .total-value {
+        font-size: 18px;
+    }
+}

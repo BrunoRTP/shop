@@ -1,6 +1,6 @@
 // Función para enviar pedido al proveedor externo
 async function enviarPedidoExterno(productId, email, address, quantity) {
-    // URL del servidor remoto de tu compañero
+    // URL del servidor remoto
     const urlProveedorRemoto = 'https://remotehost.es/student025/shop/backend/api/receive_bruno_orders.php'; 
     
     try {

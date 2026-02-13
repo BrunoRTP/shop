@@ -20,18 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // 3. Captura de datos enviados desde el JS
-$id_code  = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+$id  = isset($_POST['id']) ? intval($_POST['id']) : 0;
 $email    = isset($_POST['email']) ? mysqli_real_escape_string($conn, $_POST['email']) : '';
 $address  = isset($_POST['address']) ? mysqli_real_escape_string($conn, $_POST['address']) : '';
 $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
 
-if ($id_code <= 0 || empty($email)) {
+if ($id <= 0 || empty($email)) {
     echo json_encode(['success' => false, 'message' => 'Datos insuficientes (ID o Email)']);
     exit;
 }
 
-// 4. Buscar nombre y precio usando id_code
-$sql_prod = "SELECT name, price FROM 025_products WHERE id_code = $id_code LIMIT 1";
+// 4. Buscar nombre y precio usando id
+$sql_prod = "SELECT name, price FROM 025_products WHERE id = $id LIMIT 1";
 $res_prod = mysqli_query($conn, $sql_prod);
 
 if ($prod = mysqli_fetch_assoc($res_prod)) {

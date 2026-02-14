@@ -72,7 +72,7 @@ $result = mysqli_query($conn, $sql);
 $item = mysqli_fetch_assoc($result);
 
 $quantity = $item ? $item['quantity'] : 0;
-$subtotal = $item ? number_format($item['quantity'] * $item['price'], 2) : '0.00';
+$subtotal = $item ? round($item['quantity'] * $item['price'], 2) : 0;
 
 // Obtener total del carrito
 $sql = "SELECT SUM(c.quantity * p.price) as total, SUM(c.quantity) as total_items 
@@ -86,8 +86,8 @@ mysqli_close($conn);
 echo json_encode([
     'success' => true,
     'quantity' => $quantity,
-    'subtotal' => $subtotal,
-    'total' => number_format($totals['total'] ?? 0, 2),
+    'subtotal' => round($subtotal, 2),  // Número sin formato
+    'total' => round($totals['total'] ?? 0, 2),  // Número sin formato
     'total_items' => $totals['total_items'] ?? 0
 ]);
 ?>

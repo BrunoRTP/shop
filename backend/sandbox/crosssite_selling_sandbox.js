@@ -1,17 +1,51 @@
+// js/crosssite_selling_sandbox.js
+// Versión SANDBOX para pruebas locales (envía a ti mismo)
 
-// Función para enviar pedido al proveedor externo
-async function enviarPedidoExterno(productId, email, address, quantity) {
-    // URL de nuestro propio endpoint que redirige al proveedor
-    const urlSendOrders = '/student025/shop/backend/api/send_orders.php';
+// Función para obtener el id_code de un producto
+async function obtenerIdCode(productId) {
+    try {
+        const response = await fetch('/student025/shop/backend/ajax/get_product_id_code.php?product_id=' + productId);
+        const data = await response.json();
+        
+        if (data.success && data.id_code) {
+            return data.id_code;
+        } else {
+            console.error('No se pudo obtener id_code:', data);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error obteniendo id_code:', error);
+        return null;
+    }
+}
+
+// Función para enviar pedido en modo SANDBOX (a ti mismo)
+async function enviarPedidoExternoSandbox(productId, email, address, quantity) {
+    // Primero obtener el id_code del producto
+    console.log('🧪 SANDBOX: Obteniendo id_code del producto...');
+    const id_code = await obtenerIdCode(productId);
+    
+    if (!id_code) {
+        alert('Error: No se pudo obtener el id_code del producto.\n\nVerifica que el producto tenga un id_code asignado.');
+        return false;
+    }
+    
+    console.log('✓ id_code obtenido:', id_code);
+    
+    // URL que envía directamente a receive (sin pasar por send)
+    const urlReceive = '/student025/shop/backend/sandbox/receive_orders_sandbox.php';
     
     try {
         const formData = new FormData();
-        formData.append('product_id', productId);
+        formData.append('id_code', id_code);  // ← CAMBIO: enviar id_code en lugar de product_id
         formData.append('email', email);
         formData.append('address', address);
         formData.append('quantity', quantity);
         
-        const response = await fetch(urlSendOrders, {
+        console.log('🧪 SANDBOX: Enviando pedido a ti mismo...');
+        console.log('Datos:', {id_code, email, address, quantity});
+        
+        const response = await fetch(urlReceive, {
             method: 'POST',
             body: formData
         });
@@ -21,26 +55,29 @@ async function enviarPedidoExterno(productId, email, address, quantity) {
         }
         
         const resultado = await response.json();
+        console.log('Respuesta recibida:', resultado);
         
         if (resultado.success) {
-            alert('✓ Pedido enviado exitosamente al proveedor externo\n\n' + resultado.message);
+            alert('✓ SANDBOX: Pedido enviado exitosamente a ti mismo\n\n' + 
+                  resultado.message + '\n\n' +
+                  'ID Code: ' + resultado.debug.id_code_enviado);
             console.log('Detalles:', resultado.detalles);
             return true;
         } else {
-            alert('✗ Error al enviar pedido:\n' + resultado.message);
-            console.error('Error:', resultado);
+            alert('✗ SANDBOX ERROR:\n' + resultado.message + '\n\nRevisa la consola para más detalles');
+            console.error('Error completo:', resultado);
             return false;
         }
         
     } catch (error) {
         console.error('Error de conexión:', error);
-        alert('✗ Error al conectar con el servidor:\n' + error.message);
+        alert('✗ Error al conectar con el servidor SANDBOX:\n' + error.message);
         return false;
     }
 }
 
 // Función para verificar si el producto tiene supplier_id diferente de 1
-async function verificarSupplier(productId) {
+async function verificarSupplierSandbox(productId) {
     try {
         const response = await fetch('/student025/shop/backend/ajax/verificar_supplier.php?product_id=' + productId);
         
@@ -60,8 +97,8 @@ async function verificarSupplier(productId) {
     }
 }
 
-// Función que se ejecuta al hacer clic en el botón de pedido externo
-async function procesarPedidoExterno(button) {
+// Función que se ejecuta al hacer clic en el botón de pedido externo SANDBOX
+async function procesarPedidoExternoSandbox(button) {
     const row = button.closest('.order-row'); 
     
     if (!row) {
@@ -96,34 +133,35 @@ async function procesarPedidoExterno(button) {
     }
     
     // Confirmar antes de enviar
-    if (!confirm('¿Enviar este pedido al proveedor externo?\n\nProducto ID: ' + productId + '\nCantidad: ' + quantity)) {
+    if (!confirm('🧪 SANDBOX MODE\n\n¿Enviar pedido a ti mismo para probar?\n\nProducto ID: ' + productId + '\nCantidad: ' + quantity)) {
         return;
     }
     
     // Deshabilitar botón mientras se procesa
     button.disabled = true;
     const textoOriginal = button.textContent;
-    button.textContent = 'Enviando...';
+    button.textContent = '🧪 Enviando...';
     button.style.backgroundColor = '#FFA500'; // Naranja mientras procesa
     
     // Enviar pedido
-    const exito = await enviarPedidoExterno(productId, email, address, quantity);
+    const exito = await enviarPedidoExternoSandbox(productId, email, address, quantity);
     
     if (exito) {
-        button.textContent = '✓ Enviado';
+        button.textContent = '✓ Enviado (Sandbox)';
         button.style.backgroundColor = '#28a745'; // Verde
         button.style.color = 'white';
         // No habilitar de nuevo el botón para evitar duplicados
     } else {
         button.textContent = textoOriginal;
-        button.style.backgroundColor = '#007bff'; // Azul original
+        button.style.backgroundColor = '#FF6B00'; // Naranja oscuro original
         button.disabled = false; // Permitir reintentar
     }
 }
 
-// Inicializar botones al cargar la página
+// Inicializar botones al cargar la página (VERSIÓN SANDBOX)
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Iniciando sistema de crossselling...');
+    console.log('🧪 Iniciando sistema de crossselling SANDBOX...');
+    console.log('Modo: ENVÍO A TI MISMO para pruebas');
     
     const filasOrders = document.querySelectorAll('.order-row');
     console.log('Filas de pedidos encontradas:', filasOrders.length);
@@ -137,17 +175,17 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         
         // Verificar si es un producto externo (supplier_id != 1)
-        const esExterno = await verificarSupplier(productId);
+        const esExterno = await verificarSupplierSandbox(productId);
         
         if (esExterno) {
             console.log('Producto externo detectado:', productId);
             
-            // Crear botón para enviar a proveedor externo
+            // Crear botón para enviar a proveedor externo (SANDBOX)
             const boton = document.createElement('button');
-            boton.className = 'btn-proveedor-externo';
-            boton.textContent = 'Enviar a Proveedor';
+            boton.className = 'btn-proveedor-externo-sandbox';
+            boton.textContent = '🧪 Sandbox: Enviar a mí mismo';
             boton.style.cssText = `
-                background-color: #007bff; 
+                background-color: #FF6B00; 
                 color: white; 
                 padding: 8px 15px; 
                 border: none; 
@@ -160,30 +198,30 @@ document.addEventListener('DOMContentLoaded', async function() {
             
             boton.onmouseover = function() {
                 if (!this.disabled) {
-                    this.style.backgroundColor = '#0056b3';
+                    this.style.backgroundColor = '#E55D00';
                 }
             };
             
             boton.onmouseout = function() {
-                if (!this.disabled && this.textContent === 'Enviar a Proveedor') {
-                    this.style.backgroundColor = '#007bff';
+                if (!this.disabled && this.textContent.includes('Sandbox')) {
+                    this.style.backgroundColor = '#FF6B00';
                 }
             };
             
             boton.onclick = function() {
-                procesarPedidoExterno(this);
+                procesarPedidoExternoSandbox(this);
             };
             
             // Añadir botón al contenedor de acciones
             const celdaAcciones = fila.querySelector('.acciones-cell');
             if (celdaAcciones) {
                 celdaAcciones.appendChild(boton);
-                console.log('Botón añadido para producto:', productId);
+                console.log('Botón SANDBOX añadido para producto:', productId);
             } else {
                 console.warn('No se encontró .acciones-cell para producto:', productId);
             }
         }
     }
     
-    console.log('Sistema de crossselling inicializado');
+    console.log('🧪 Sistema de crossselling SANDBOX inicializado');
 });

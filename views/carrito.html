@@ -3,19 +3,112 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Goods Heaven</title>
+    <title>Carrito - Home Goods Heaven</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/scss/styleCarrito.css" />
+    
+    <!-- CSS del menú de accesibilidad -->
+    <link rel="stylesheet" href="../css/accessibility-menu.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
   <body>
-    <!-- Menu overlay -->
+    
+    <!-- ========== MENÚ DE ACCESIBILIDAD ========== -->
+    <div class="accessibility-overlay" id="accessibility-overlay"></div>
+
+    <nav class="accessibility-panel" id="accessibility-panel">
+      <div class="accessibility-header">
+        <h2 class="accessibility-title">Accesibilidad</h2>
+        <button class="close-accessibility" id="close-accessibility" aria-label="Cerrar">
+          <img src="../assets/iconos/cerrar.png" alt="Cerrar" class="icono">
+        </button>
+      </div>
+      
+      <ul class="accessibility-list">
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn active" data-contrast="none">Normal</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="grayscale">Escala de grises</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-contrast-dark">Contraste oscuro</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-contrast-light">Contraste claro</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-saturation">Saturación alta</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="low-saturation">Saturación baja</button>
+        </li>
+        
+        <li class="accessibility-separator"></li>
+        
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Tamaño de fuente</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-font">−</button>
+              <span class="control-value" id="font-size-value">1.0</span>
+              <button class="control-btn" id="increase-font">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Interlineado</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-line-height">−</button>
+              <span class="control-value" id="line-height-value">1.5</span>
+              <button class="control-btn" id="increase-line-height">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Espaciado palabras</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-word-spacing">−</button>
+              <span class="control-value" id="word-spacing-value">0.0</span>
+              <button class="control-btn" id="increase-word-spacing">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Espaciado letras</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-letter-spacing">−</button>
+              <span class="control-value" id="letter-spacing-value">0.0</span>
+              <button class="control-btn" id="increase-letter-spacing">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <li class="accessibility-separator"></li>
+        
+        <li class="accessibility-item">
+          <button class="accessibility-link reset-btn" id="reset-accessibility">Restaurar configuración</button>
+        </li>
+      </ul>
+    </nav>
+    <!-- ========== FIN MENÚ DE ACCESIBILIDAD ========== -->
+    
+    
+    <!-- ========== MENÚ LATERAL NORMAL ========== -->
     <div class="menu-overlay" id="menuOverlay"></div>
     
-    <!-- Menu lateral -->
     <nav class="menu-lateral" id="menuLateral">
       <div class="menu-cabecera">
         <h2 class="menu-titulo">Menú</h2>
@@ -24,7 +117,7 @@
         </button>
       </div>
       <ul class="lista-menu">
-        <li class="item-menu"><a href="#" class="enlace-menu">Inicio</a></li>
+        <li class="item-menu"><a href="../index.html" class="enlace-menu">Inicio</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
         <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
@@ -43,7 +136,7 @@
       </ul>
     </nav>
     
-    <!-- Header -->
+    <!-- ========== HEADER ========== -->
     <header class="header">
       <div class="header-superior">
         <button class="boton-menu" id="botonMenu">
@@ -54,6 +147,11 @@
         <div class="logo">
           <a href="../index.html" class="logo-texto">Home Goods Heaven</a>
         </div>
+
+        <!-- NUEVO: Botón de accesibilidad -->
+        <button class="boton-icono" id="btn-accessibility" aria-label="Abrir menú de accesibilidad">
+          <img src="https://images.icon-icons.com/2440/PNG/512/accessibility_icon_148550.png" alt="Accesibilidad" class="icono">
+        </button>
 
         <button class="boton-icono">
           <a href="../backend/forms/form_login.php">
@@ -71,7 +169,7 @@
       </div>
     </header>
 
-    <!-- Main content -->
+    <!-- ========== MAIN ========== -->
     <main class="contenido-principal">
       
       <!-- Contenedor principal con productos y resumen -->
@@ -97,54 +195,6 @@
           </div>
 
           <!-- Producto 2 -->
-          <div class="producto-item">
-            <div class="producto-imagen">
-              <img src="../assets/img/ph.jpg" alt="Producto" />
-            </div>
-            <div class="producto-info">
-              <h3>Nombre del producto</h3>
-              <p class="producto-descripcion">Descripción</p>
-              <p class="producto-cantidad">Cantidad</p>
-            </div>
-            <div class="producto-controles">
-              <button class="btn-control">+</button>
-              <button class="btn-control">−</button>
-            </div>
-          </div>
-
-          <!-- Producto 3 -->
-          <div class="producto-item">
-            <div class="producto-imagen">
-              <img src="../assets/img/ph.jpg" alt="Producto" />
-            </div>
-            <div class="producto-info">
-              <h3>Nombre del producto</h3>
-              <p class="producto-descripcion">Descripción</p>
-              <p class="producto-cantidad">Cantidad</p>
-            </div>
-            <div class="producto-controles">
-              <button class="btn-control">+</button>
-              <button class="btn-control">−</button>
-            </div>
-          </div>
-
-          <!-- Producto 4 -->
-          <div class="producto-item">
-            <div class="producto-imagen">
-              <img src="../assets/img/ph.jpg" alt="Producto" />
-            </div>
-            <div class="producto-info">
-              <h3>Nombre del producto</h3>
-              <p class="producto-descripcion">Descripción</p>
-              <p class="producto-cantidad">Cantidad</p>
-            </div>
-            <div class="producto-controles">
-              <button class="btn-control">+</button>
-              <button class="btn-control">−</button>
-            </div>
-          </div>
-
-          <!-- Producto 5 -->
           <div class="producto-item">
             <div class="producto-imagen">
               <img src="../assets/img/ph.jpg" alt="Producto" />
@@ -187,7 +237,7 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- ========== FOOTER ========== -->
     <footer class="pie-pagina">
       <nav class="nav-pie-pagina">
         <a href="../index.html" class="enlace-pie-pagina">
@@ -209,6 +259,7 @@
       </nav>
     </footer>
     
+    <!-- ========== SCRIPTS ========== -->
     <!-- Cargar primero la sesión de invitado -->
     <script src="../js/guest_session.js"></script>
     <!-- Sistema de carrito -->
@@ -217,5 +268,8 @@
     <script src="../js/scrypt.js"></script>
     <!-- Script de la página del carrito -->
     <script src="../js/cart_page.js"></script>
+    
+    <!-- Script del menú de accesibilidad (NUEVO) -->
+    <script src="../js/accessibility-menu.js"></script>
   </body>
 </html>

@@ -1,9 +1,23 @@
+// js/cart.js - Versión corregida para manejar precios grandes
+
 document.addEventListener("DOMContentLoaded", function () {
-  // Determinar la URL base: localhost usa rutas relativas, todo lo demás usa remotehost
+  // Determinar la URL base
   const isLocal =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1";
   const baseUrl = isLocal ? "/student025/shop" : "https://remotehost.es/student025/shop";
+  function formatPrice(number) {
+    // Convertir a número y formatear con separador de miles
+    const num = parseFloat(number);
+    if (isNaN(num)) return '0.00';
+    
+    // Formatear con separador de miles (punto) y decimales (coma) para formato europeo
+    // O usar formato internacional con coma para miles y punto para decimales
+    return num.toLocaleString('es-ES', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
 
   function updateCart(productId, action) {
     const row = document.querySelector(`tr[data-product-id="${productId}"]`);
@@ -26,14 +40,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.success) {
           if (data.quantity <= 0) {
             row.remove();
-            // ... resto de tu lógica de carrito vacío
+            
+            // Verificar si el carrito está vacío
+            const tbody = document.querySelector('table tbody');
+            const rows = tbody.querySelectorAll('tr:not(.empty-cart-row)');
+            
+            if(rows.length === 0) {
+              tbody.innerHTML = '<tr class="empty-cart-row"><td colspan="6">Tu carrito está vacío</td></tr>';
+              document.getElementById('checkout-btn').style.display = 'none';
+            }
           } else {
             row.querySelector(".quantity-cell").textContent = data.quantity;
-            row.querySelector(".subtotal-cell").textContent =
-              "€" + parseFloat(data.subtotal).toFixed(2);
+            row.querySelector(".subtotal-cell").textContent = "€" + formatPrice(data.subtotal);
           }
-          document.getElementById("cart-total").textContent =
-            "€" + parseFloat(data.total).toFixed(2);
+
+          document.getElementById("cart-total").textContent = "€" + formatPrice(data.total);
         } else {
           alert("Error: " + data.message);
         }

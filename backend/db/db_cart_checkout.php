@@ -171,35 +171,25 @@ if($orders_created > 0 && empty($errors) && !empty($customer_email)){
                             <span class='value'>" . date('d/m/Y H:i', strtotime($order_date)) . "</span>
                         </div>
                         <div class='info-row'>
-                            <span class='label'>Cliente:</span>
-                            <span class='value'>{$customer_name}</span>
-                        </div>
-                        <div class='info-row'>
-                            <span class='label'>Email:</span>
-                            <span class='value'>{$customer_email}</span>
-                        </div>
-                        <div class='info-row'>
                             <span class='label'>Dirección de envío:</span>
                             <span class='value'>{$address}</span>
                         </div>
                     </div>
                     
-                    <div class='products-section'>
-                        <h2>Productos del pedido</h2>
-                        <table class='products-table'>
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio unitario</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {$productsHTML}
-                            </tbody>
-                        </table>
-                    </div>
+                    <h2>Detalles del pedido</h2>
+                    <table class='products-table'>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio unit.</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {$productsHTML}
+                        </tbody>
+                    </table>
                     
                     <div class='totals-section'>
                         <div class='total-row'>
@@ -251,11 +241,16 @@ if($orders_created > 0 && empty($errors) && !empty($customer_email)){
     }
 }
 
+// 9. VACIAR EL CARRITO después de crear el pedido exitosamente
+if($orders_created > 0 && empty($errors)){
+    $sql_delete_cart = "DELETE FROM 025_cart WHERE customer_id = $customer_id";
+    mysqli_query($conn, $sql_delete_cart);
+}
 
 mysqli_close($conn);
 include($root_dir . 'footer.php'); 
 
-// 9. INTERFAZ DE ÉXITO
+// 10. INTERFAZ DE ÉXITO
 ?>
 
 <div class="container" style="text-align: center; padding: 40px 20px;">

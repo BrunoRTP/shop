@@ -9,37 +9,148 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- CSS del menú de accesibilidad -->
+    <link rel="stylesheet" href="css/accessibility-menu.css">
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
+    
+    <!-- ========== MENÚ DE ACCESIBILIDAD ========== -->
+    <!-- Overlay -->
+    <div class="accessibility-overlay" id="accessibility-overlay"></div>
+
+    <!-- Panel lateral de accesibilidad -->
+    <nav class="accessibility-panel" id="accessibility-panel">
+      
+      <!-- Cabecera -->
+      <div class="accessibility-header">
+        <h2 class="accessibility-title">Accesibilidad</h2>
+        <button class="close-accessibility" id="close-accessibility" aria-label="Cerrar menú de accesibilidad">
+          <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
+        </button>
+      </div>
+      
+      <!-- Lista de opciones -->
+      <ul class="accessibility-list">
+        
+        <!-- Contraste -->
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn active" data-contrast="none">Normal</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="grayscale">Escala de grises</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-contrast-dark">Contraste oscuro</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-contrast-light">Contraste claro</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="high-saturation">Saturación alta</button>
+        </li>
+        <li class="accessibility-item">
+          <button class="accessibility-link contrast-btn" data-contrast="low-saturation">Saturación baja</button>
+        </li>
+        
+        <!-- Separador -->
+        <li class="accessibility-separator"></li>
+        
+        <!-- Tamaño de fuente -->
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Tamaño de fuente</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-font" aria-label="Reducir">−</button>
+              <span class="control-value" id="font-size-value">1.0</span>
+              <button class="control-btn" id="increase-font" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Interlineado -->
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Interlineado</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-line-height" aria-label="Reducir">−</button>
+              <span class="control-value" id="line-height-value">1.5</span>
+              <button class="control-btn" id="increase-line-height" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Espaciado palabras -->
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Espaciado palabras</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-word-spacing" aria-label="Reducir">−</button>
+              <span class="control-value" id="word-spacing-value">0.0</span>
+              <button class="control-btn" id="increase-word-spacing" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Espaciado letras -->
+        <li class="accessibility-item">
+          <div class="accessibility-control">
+            <span class="control-label">Espaciado letras</span>
+            <div class="control-buttons">
+              <button class="control-btn" id="decrease-letter-spacing" aria-label="Reducir">−</button>
+              <span class="control-value" id="letter-spacing-value">0.0</span>
+              <button class="control-btn" id="increase-letter-spacing" aria-label="Aumentar">+</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Separador -->
+        <li class="accessibility-separator"></li>
+        
+        <!-- Reset -->
+        <li class="accessibility-item">
+          <button class="accessibility-link reset-btn" id="reset-accessibility">Restaurar configuración</button>
+        </li>
+        
+      </ul>
+      
+    </nav>
+    
+    
+    <!-- ========== MENÚ LATERAL NORMAL ========== -->
     <div class="menu-overlay" id="menuOverlay"></div>
     <nav class="menu-lateral" id="menuLateral">
-    <div class="menu-cabecera">
-        <h2 class="menu-titulo">Menú</h2>
-        <button class="cerrar-menu" id="cerrarMenu">
-            <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
-        </button>
-    </div>
-    <ul class="lista-menu">
-        <li class="item-menu"><a href="index.html" class="enlace-menu">Inicio</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Dormitorio</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Almacenamiento</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Decoración</a></li>
-        <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
-        <li class="item-menu" style="border-top: 2px solid #ddd; margin-top: 10px; padding-top: 10px;">
-            <div style="padding: 10px 24px; color: #666;">
-                <small>Usuario: <span id="menu-username">invitado</span></small>
-            </div>
-        </li>
-        <li class="item-menu">
-            <a href="backend/forms/form_login.php" class="enlace-menu" id="menu-login-link">Iniciar Sesión</a>
-        </li>
-    </ul>
-</nav>
+        <div class="menu-cabecera">
+            <h2 class="menu-titulo">Menú</h2>
+            <button class="cerrar-menu" id="cerrarMenu">
+                <img src="assets/iconos/cerrar.png" alt="Cerrar" class="icono">
+            </button>
+        </div>
+        <ul class="lista-menu">
+            <li class="item-menu"><a href="index.html" class="enlace-menu">Inicio</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Sofás</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Mesas</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Sillas</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Dormitorio</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Almacenamiento</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Decoración</a></li>
+            <li class="item-menu"><a href="#" class="enlace-menu">Ofertas</a></li>
+            <li class="item-menu" style="border-top: 2px solid #ddd; margin-top: 10px; padding-top: 10px;">
+                <div style="padding: 10px 24px; color: #666;">
+                    <small>Usuario: <span id="menu-username">invitado</span></small>
+                </div>
+            </li>
+            <li class="item-menu">
+                <a href="backend/forms/form_login.php" class="enlace-menu" id="menu-login-link">Iniciar Sesión</a>
+            </li>
+        </ul>
+    </nav>
 
+    <!-- ========== HEADER ========== -->
     <header class="header">
         <div class="header-superior">
             <button class="boton-menu" id="botonMenu">
@@ -50,6 +161,11 @@
             <div class="logo">
                 <a href="index.html" class="logo-texto">Home Goods Heaven</a>
             </div>
+
+            <!-- NUEVO: Botón de accesibilidad -->
+            <button class="boton-icono" id="btn-accessibility" aria-label="Abrir menú de accesibilidad">
+                <img src="https://images.icon-icons.com/2440/PNG/512/accessibility_icon_148550.png" alt="Accesibilidad" class="icono">
+            </button>
 
             <button class="boton-icono">
                 <a href="backend/forms/form_login.php">
@@ -69,6 +185,7 @@
         </div>
     </header>
 
+    <!-- ========== CONTENIDO PRINCIPAL ========== -->
     <main class="contenido-principal">
         <section class="producto-hero">
             <div class="contenedor-imagen-hero">
@@ -90,6 +207,7 @@
         </div>
     </main>
 
+    <!-- ========== FOOTER ========== -->
     <footer class="pie-pagina">
         <nav class="nav-pie-pagina">
             <a href="index.html" class="enlace-pie-pagina activo">
@@ -111,6 +229,7 @@
         </nav>
     </footer>
 
+    <!-- ========== SCRIPTS ========== -->
     <!-- Cargar primero la sesión de invitado -->
     <script src="js/guest_session.js"></script>
     <!-- Sistema de carrito -->
@@ -118,5 +237,8 @@
     <!-- Luego los demás scripts -->
     <script src="js/scrypt.js"></script>
     <script src="js/index_products.js"></script>
+    
+    <!-- Script del menú de accesibilidad (NUEVO) -->
+    <script src="js/accessibility-menu.js"></script>
 </body>
 </html>

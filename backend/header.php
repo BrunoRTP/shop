@@ -21,7 +21,7 @@
                 if(isset($_SESSION['type_client']) && $_SESSION['type_client'] == 'admin'){
                     echo '<li><a href="/student025/shop/backend/reviews.php">Reviews</a></li>';
                 }
-                
+                echo '<li><a href="/student025/shop/backend/manuales.php">Manuales</a></li>';
                 echo '<li><a href="/student025/shop/backend/logout.php">Close session</a></li>';
             ?>
         </ul>

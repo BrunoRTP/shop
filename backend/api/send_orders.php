@@ -38,11 +38,9 @@ $id_code = $producto['id_code'];
 $supplier_id = $producto['supplier_id'];
 
 // Determinar URL del proveedor según el supplier_id
-// IMPORTANTE: Aquí debes configurar las URLs de tus compañeros
 $urls_proveedores = [
-    2 => 'https://remotehost.es/student008/shop/backend/api/receive_orders.php', // Ejemplo compañero 1
-    3 => 'https://remotehost.es/student008/shop/backend/api/receive_orders.php', // Ejemplo compañero 2
-    // Añade más proveedores según necesites
+    2 => 'https://remotehost.es/student008/shop/backend/api/receive_orders.php',
+    3 => 'https://remotehost.es/student006/shop/backend/api/receive_orders.php',
 ];
 
 if (!isset($urls_proveedores[$supplier_id])) {

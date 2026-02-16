@@ -72,9 +72,6 @@ $sql_insert = "INSERT INTO 025_order (customer_id, product_id, quantity, price, 
 if (mysqli_query($conn, $sql_insert)) {
     $order_id = mysqli_insert_id($conn);
     
-    // Opcional: Reducir el stock del producto
-    $sql_update_stock = "UPDATE 025_products SET stock = stock - $quantity WHERE id = $product_id";
-    mysqli_query($conn, $sql_update_stock);
     
     echo json_encode([
         'success' => true, 

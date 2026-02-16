@@ -11,6 +11,11 @@
         echo '<button>';
         echo '<a href="/student025/shop/backend/forms/form_products_insert.php" class="social-icon">Insertar Nuevo Producto</a>';
         echo '</button>';
+         
+        // NUEVO: Botón para ver estadísticas
+        echo '<button style="margin-left: 10px; background-color: #dbb69f; margin-top: 10px;">';
+        echo '<a href="/student025/shop/backend/stats.php" class="social-icon" style="color: white;">📊 Ver Estadísticas</a>';
+        echo '</button>';
     }
 ?>
 
@@ -44,7 +49,6 @@
     }
     
     $result = mysqli_query($conn, $sql);
-    $result = mysqli_query($conn, $sql); 
     while ($row = mysqli_fetch_assoc($result)) {
         $id = $row['id'];
         $name = htmlspecialchars($row['name']);

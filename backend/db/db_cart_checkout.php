@@ -3,11 +3,12 @@ session_start();
 $root_dir = $_SERVER['DOCUMENT_ROOT'] . '/student025/shop/backend/';
 include($root_dir. 'header.php'); 
 include($root_dir . 'db_connection.php'); 
+include($root_dir . '/api/send_orders2.php');
 
 // Incluir PHPMailer
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/Exception.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/PHPMailer.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/src/SMTP.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/PHPMailer/src/Exception.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/PHPMailer/src/PHPMailer.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPMailer/PHPMailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -93,7 +94,25 @@ while($item = mysqli_fetch_assoc($result)){
         $errors[] = "Error al crear pedido para producto ID $product_id: " . mysqli_error($conn);
     }
 }
+   $sql_carrito = "SELECT 
+                    c.product_id,
+                    c.quantity,
+                    p.price,
+                    p.name AS title,
+                    p.supplier_id,
+                    p.id_code
+                FROM 025_cart c
+                JOIN 025_products p ON c.product_id = p.id
+                WHERE c.customer_id = ?";
+$user_id = $_SESSION['user_id'];
+$result_carrito = mysqli_execute_query($conn, $sql_carrito, [$user_id]); // Ejecutamos la consulta.
+while ($item = mysqli_fetch_assoc($result_carrito)) {
+    if ($item['supplier_id'] == 3) $items_julen[] = $item;
+}
 
+if (!empty($items_julen)) {
+    enviar_pedidos_julen($items_julen, $customer_email, $address, $conn);
+}
 // 6. Calcular IVA y total
 $tax = $subtotal * 0.21; // 21% IVA
 $total = $subtotal + $tax;

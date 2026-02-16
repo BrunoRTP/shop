@@ -39,8 +39,8 @@ $supplier_id = $producto['supplier_id'];
 
 // Determinar URL del proveedor según el supplier_id
 $urls_proveedores = [
-    2 => 'https://remotehost.es/student008/shop/backend/api/receive_orders.php',
-    3 => 'https://remotehost.es/student006/shop/backend/api/receive_orders.php',
+    2 => 'https://remotehost.es/student008/shop/backend/api/recive_orders.php',
+    3 => 'https://remotehost.es/student008/shop/backend/api/recive_orders.php',
 ];
 
 if (!isset($urls_proveedores[$supplier_id])) {

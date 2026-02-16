@@ -105,6 +105,7 @@ while($item = mysqli_fetch_assoc($result)){
                 JOIN 025_products p ON c.product_id = p.id
                 WHERE c.customer_id = ?";
 $user_id = $_SESSION['user_id'];
+$items_julen = [];
 $result_carrito = mysqli_execute_query($conn, $sql_carrito, [$user_id]); // Ejecutamos la consulta.
 while ($item = mysqli_fetch_assoc($result_carrito)) {
     if ($item['supplier_id'] == 3) $items_julen[] = $item;

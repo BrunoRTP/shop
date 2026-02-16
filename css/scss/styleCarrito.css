@@ -68,7 +68,7 @@ body {
   position: absolute;
   top: 2px;
   right: 2px;
-  background-color: #d4825b;
+  background-color: #df4e0b;
   color: #ffffff;
   font-size: 10px;
   padding: 2px 6px;
@@ -208,7 +208,7 @@ body {
 }
 
 .pie-pagina .nav-pie-pagina .enlace-pie-pagina:hover, .pie-pagina .nav-pie-pagina .enlace-pie-pagina.activo {
-  color: #d4825b;
+  color: #df4e0b;
 }
 
 @media (min-width: 1024px) {
@@ -368,7 +368,7 @@ body {
 
 .productos-carrito .producto-item .producto-info .producto-subtotal {
   font-weight: 600;
-  color: #d4825b;
+  color: #df4e0b;
   font-size: 16px;
 }
 
@@ -526,7 +526,7 @@ body {
 .columna-lateral .confirmacion-box .resumen-detalle .total-precio {
   font-size: 20px;
   font-weight: 700;
-  color: #d4825b;
+  color: #df4e0b;
   padding-top: 16px;
   border-top: 2px solid #f0f0f0;
 }
@@ -638,7 +638,7 @@ body {
 .columna-lateral .recomendaciones-box .recomendaciones-grid .recomendacion-item .rec-precio {
   font-size: 14px;
   font-weight: 700;
-  color: #d4825b;
+  color: #df4e0b;
 }
 
 .botones-inferiores {

@@ -173,12 +173,12 @@
 
 /* Botón de reset */
 .reset-btn {
-  background-color: #D4825B;
+  background-color: #6A5134;
   color: #ffffff;
 }
 
 .reset-btn:hover {
-  background-color: #c06d49;
+  background-color: #8B6F47;
 }
 
 /* Estilos para las clases de filtro - aplicar a header, main, footer */

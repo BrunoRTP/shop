@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const heroTitle = document.querySelector('.titulo-hero');
         const heroSubtitle = document.querySelector('.subtitulo-hero');
         const heroPrice = document.querySelector('.precio-hero');
-        const heroButton = document.querySelector('.boton-cta-hero a');
+        const heroButton = document.querySelector('.boton-cta-hero');
         
         // Cargar imagen de la base de datos o placeholder
         if(product.image_data) {
@@ -30,7 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
         heroTitle.textContent = product.name;
         heroSubtitle.textContent = product.description;
         heroPrice.textContent = '€' + product.price;
-        heroButton.href = 'views/producto.html?id=' + product.id;
+        heroButton.onclick = function() {
+            window.location.href = 'views/producto.html?id=' + product.id;
+        };
+        heroButton.onkeypress = function(event) {
+            if(event.key === 'Enter') {
+                window.location.href = 'views/producto.html?id=' + product.id;
+            }
+        };
     }
     
     function loadOtherProducts(products) {
@@ -52,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="informacion-producto">
                         <h3 class="titulo-producto">${product.name}</h3>
                         <p class="precio-producto">€${product.price}</p>
-                        <button class="anadir-carrito-btn">
-                            <a href="views/producto.html?id=${product.id}">Ver detalles</a>
+                        <button class="anadir-carrito-btn" onclick="window.location.href='views/producto.html?id=${product.id}'" onkeypress="if(event.key === 'Enter') window.location.href='views/producto.html?id=${product.id}'">
+                            <p>Ver Detalles</p>
                         </button>
                     </div>
                 </article>

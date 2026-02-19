@@ -130,7 +130,7 @@
     }
 ?>
 
-<script src="/student025/shop/js/crosssite_selling.js"></script>
+<!-- <script src="/student025/shop/js/crosssite_selling.js"></script> -->
  <!-- <script src="/student025/shop/backend/sandbox/crosssite_selling_sandbox.js"></script> -->
 
 <?php include($root_dir . 'footer.php'); ?>

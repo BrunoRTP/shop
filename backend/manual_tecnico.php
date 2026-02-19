@@ -38,7 +38,7 @@
             <tr>
                 <td>Backend</td>
                 <td>PHP</td>
-                <td>7.4+</td>
+                <td>8.4+</td>
             </tr>
             <tr>
                 <td>Frontend</td>

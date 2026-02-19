@@ -30,8 +30,8 @@
         </tr>
         <tr>
             <td>PHP</td>
-            <td>PHP 7.4+</td>
-            <td>PHP 8.1+ (Desarrollado en 8.3.14)</td>
+            <td>PHP 8.4+</td>
+            <td>PHP 8.4+ (Desarrollado en 8.3.14)</td>
         </tr>
         <tr>
             <td>Base de Datos</td>

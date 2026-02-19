@@ -1,6 +1,6 @@
 <?php
 // backend/api/send_orders.php
-// Archivo para ENVIAR pedidos al proveedor externo
+// Archivo para ENVIAR pedidos al proveedor externo (usado por el botón en orders.php)
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -50,24 +50,41 @@ if (!isset($urls_proveedores[$supplier_id])) {
 
 $url_proveedor = $urls_proveedores[$supplier_id];
 
-// Preparar datos para enviar
-$datos_envio = [
-    'id_code' => $id_code,
-    'email' => $email,
-    'address' => $address,
+// Preparar datos para enviar (igual que el test exitoso)
+$postData = [
+    'api_key'  => '3333',
+    'id_code'  => $id_code,
+    'email'    => $email,
+    'address'  => $address,
     'quantity' => $quantity
 ];
 
-// Enviar pedido al proveedor externo usando cURL
+// Enviar pedido al proveedor externo usando cURL (configuración del test exitoso)
 $ch = curl_init($url_proveedor);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($datos_envio));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => http_build_query($postData),  // ✅ IMPORTANTE: usar http_build_query
+    CURLOPT_SSL_VERIFYPEER => false,
+    CURLOPT_TIMEOUT        => 30,
+    CURLOPT_CONNECTTIMEOUT => 10,
+    CURLOPT_HTTPHEADER     => [
+        'Content-Type: application/x-www-form-urlencoded'
+    ]
+]);
 
 $response = curl_exec($ch);
 $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curl_error = curl_error($ch);
 curl_close($ch);
+
+// Log para debugging
+error_log("=== SEND_ORDERS (BOTÓN) ===");
+error_log("Product ID: $product_id | ID Code: $id_code");
+error_log("HTTP Code: $http_code");
+error_log("Respuesta: " . $response);
+error_log("===========================");
 
 if ($http_code == 200) {
     $resultado = json_decode($response, true);
@@ -82,13 +99,15 @@ if ($http_code == 200) {
         echo json_encode([
             'success' => false,
             'message' => 'El proveedor respondió con error',
-            'detalles' => $resultado
+            'detalles' => $resultado,
+            'response_raw' => $response
         ]);
     }
 } else {
     echo json_encode([
         'success' => false,
         'message' => 'Error al conectar con el proveedor (HTTP ' . $http_code . ')',
+        'curl_error' => $curl_error,
         'response' => $response
     ]);
 }

@@ -1,6 +1,7 @@
 $(document).ready(function() {
     
     const STORAGE_KEY = 'accessibility_preferences';
+
     
     // Valores por defecto
     const defaultSettings = {
